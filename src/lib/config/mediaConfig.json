@@ -1,0 +1,23 @@
+{
+    "basePath": "https://localhost/media/",
+    "media":[
+        {
+            "index": 0,
+            "type": "image",
+            "filename": "1.jpg",
+            "duration": 5000
+        },
+        {
+            "index": 1,
+            "type": "image",
+            "filename": "2.jpg",
+            "duration": 5000
+        },
+        {
+            "index": 2,
+            "type": "video",
+            "filename": "video.mp4",
+            "duration": 5
+        }
+    ]
+}

@@ -1,24 +1,6 @@
 <script lang="ts">
-    import { GetImagePaths } from "$lib/components/ImageImport";
-
-    import image1 from "$lib/assets/images/1.jpg";
-    import image2 from "$lib/assets/images/2.jpg";
-    import video1 from "$lib/assets/videos/video.mp4";
-
-    import type { ImageViewData } from "$lib/types/ContentTypes";
-    import type { VideoData } from "$lib/types/ContentTypes";
     import ContentCarousel from "$lib/components/ContentCarousel.svelte";
     import type { SvelteComponent } from "svelte";
-    
-    const images: ImageViewData[] = [ 
-        { index: 0, path: image1, duration: 4000 },
-        { index: 1, path: image2, duration: 4000 },
-        { index: 3, path: image2, duration: 4000 }
-    ];
-
-    const videos: VideoData[] = [
-        { index: 2, path: video1 }
-    ];
 
     let contentCarousel: SvelteComponent | undefined = $state();
 
@@ -28,7 +10,7 @@
 
 <div class="w-screen h-screen flex flex-col">
     <div class="grow bg-red-200 flex flex-col">
-        <ContentCarousel bind:this={contentCarousel} images={images} videos={videos} autoplay={autoplay} />
+        <ContentCarousel bind:this={contentCarousel} autoplay={autoplay} />
     </div>
 </div>
 

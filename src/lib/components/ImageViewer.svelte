@@ -1,9 +1,9 @@
 <script lang="ts">
-    import type { ImageViewData } from "$lib/types/ContentTypes";
+    import { GetMediaPath, type MediaData } from "$lib/MediaLoader";
 
-    let { data }: { data: ImageViewData } = $props();
+    let { data }: { data: MediaData } = $props();
 </script>
 
 <div class="w-full">
-    <img src={data.path} alt="Image" />
+    <img class="object-contain" src={GetMediaPath(data)} alt="Image" />
 </div>

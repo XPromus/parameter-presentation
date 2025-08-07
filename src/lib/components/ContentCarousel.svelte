@@ -1,14 +1,14 @@
 <script lang="ts">
-    import { ContentType, type ImageViewData, type VideoData } from "$lib/types/ContentTypes";
+    import { ContentType, GetAllMedia } from "$lib/MediaLoader";
     import { onMount } from "svelte";
     import ImageViewer from "./ImageViewer.svelte";
     import VideoViewer from "./VideoViewer.svelte";
+    import { GetMediaDataAtIndex, type MediaData } from "$lib/MediaLoader";
 
-    let { images, videos, autoplay }: { images: ImageViewData[], videos: VideoData[], autoplay: boolean } = $props();
+    let { autoplay }: { autoplay: boolean } = $props();
 
     let currentContentType: ContentType = $state(ContentType.IMAGE);
-    let currentImage: ImageViewData | undefined = $state();
-    let currentVideo: VideoData | undefined = $state();
+    let currentContent: MediaData | undefined = $state();
 
     let elapsed = $state(0);
     let currentIndex = $state(0);
@@ -24,52 +24,43 @@
     }
 
     export const onBack = () => {
-        console.log("Back");
         if (currentIndex > 0) {
             currentIndex--;
             setContentTypeForCurrentIndex();
+            elapsed = 0;
         }
     }
 
     export const onContinue = () => {
-        console.log("Continue");
-        const maxIndex = images.length + videos.length - 1;
-        if (currentIndex < maxIndex){
+        if (currentIndex < GetAllMedia().length - 1){
             currentIndex++;
             setContentTypeForCurrentIndex();
         }
     }
 
     const setContentTypeForCurrentIndex = () => {
-        images.forEach(element => {
-            if (element.index == currentIndex) {
-                currentImage = element;
+        currentContent = GetMediaDataAtIndex(currentIndex);
+        switch(currentContent.type) {
+            case "image":
                 currentContentType = ContentType.IMAGE;
-                return;
-            }
-        });
-
-        videos.forEach(element => {
-            if (element.index == currentIndex) {
-                currentVideo = element;
+                break;
+            case "video":
                 currentContentType = ContentType.VIDEO;
-                return;
-            }
-        })
+                break;
+        }
     }
 
     onMount(() => {
         onStart();
 
-        let lastTime = performance.now();
+        let lastTime = window.performance.now();
         let frame = requestAnimationFrame(function update(time) {
             frame = requestAnimationFrame(update);
-
             if (currentContentType == ContentType.IMAGE && autoplay) {
-                elapsed += Math.min(time - lastTime, currentImage!!.duration - elapsed);
+                elapsed += Math.min(time - lastTime, currentContent!!.duration - elapsed);
                 lastTime = time;
 
-                if (elapsed >= currentImage!!.duration) {
+                if (elapsed >= currentContent!!.duration) {
                     onContinue();
                     elapsed = 0;
                 };
@@ -82,9 +73,11 @@
 </script>
 
 <div>
-    {#if currentContentType == ContentType.IMAGE && currentImage != undefined}
-        <ImageViewer data={currentImage}/>
-    {:else if currentContentType == ContentType.VIDEO && currentVideo != undefined}
-        <VideoViewer data={currentVideo} onFinish={onVideoFinish}/>
+    {#if currentContent != undefined}
+        {#if currentContentType == ContentType.IMAGE}
+            <ImageViewer data={currentContent}/>
+        {:else if currentContentType == ContentType.VIDEO}
+            <VideoViewer data={currentContent} onFinish={onVideoFinish}/>
+        {/if}
     {/if}
 </div>
