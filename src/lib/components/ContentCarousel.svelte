@@ -1,17 +1,30 @@
 <script lang="ts">
     import { ContentType, GetAllMedia } from "$lib/MediaLoader";
-    import { onMount } from "svelte";
+    import { onMount, type SvelteComponent } from "svelte";
     import ImageViewer from "./ImageViewer.svelte";
     import VideoViewer from "./VideoViewer.svelte";
     import { GetMediaDataAtIndex, type MediaData } from "$lib/MediaLoader";
 
-    let { autoplay }: { autoplay: boolean } = $props();
+    let { 
+        autoplay, 
+        currentContentType = $bindable(),
+        videoPaused = $bindable(),
+        videoLength = $bindable(),
+        currentVideoTime = $bindable(), 
+    }: { 
+        autoplay: boolean, 
+        currentContentType: ContentType,
+        videoPaused: boolean,
+        videoLength: number,
+        currentVideoTime: number, 
+    } = $props();
 
-    let currentContentType: ContentType = $state(ContentType.IMAGE);
     let currentContent: MediaData | undefined = $state();
 
     let elapsed = $state(0);
     let currentIndex = $state(0);
+
+    let videoViewer: SvelteComponent | undefined = $state();
 
     const onStart = () => {
         setContentTypeForCurrentIndex();
@@ -37,6 +50,17 @@
             setContentTypeForCurrentIndex();
         }
     }
+
+    export const onPausePlayClicked = () => {
+        switch(currentContentType){
+            case ContentType.IMAGE:
+                autoplay = !autoplay;
+                break;
+            case ContentType.VIDEO:
+                videoViewer!!.onPlayPause;
+                break;
+        }
+    } 
 
     const setContentTypeForCurrentIndex = () => {
         currentContent = GetMediaDataAtIndex(currentIndex);
@@ -72,12 +96,12 @@
     })
 </script>
 
-<div>
+<div class="w-full h-full flex justify-center items-center">
     {#if currentContent != undefined}
         {#if currentContentType == ContentType.IMAGE}
             <ImageViewer data={currentContent}/>
         {:else if currentContentType == ContentType.VIDEO}
-            <VideoViewer data={currentContent} onFinish={onVideoFinish}/>
+            <VideoViewer bind:videoLength={videoLength} bind:currentVideoTime={currentVideoTime} bind:paused={videoPaused} bind:this={videoViewer} data={currentContent} onFinish={onVideoFinish}/>
         {/if}
     {/if}
 </div>

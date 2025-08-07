@@ -18,6 +18,12 @@
             "type": "video",
             "filename": "video.mp4",
             "duration": 5
+        },
+        {
+            "index": 3,
+            "type": "image",
+            "filename": "2.jpg",
+            "duration": 5000
         }
     ]
 }
