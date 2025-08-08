@@ -6,6 +6,14 @@ services:
       - "443:443"
       - "443:443/udp"
     volumes:
-      - ./caddy/config:/etc/caddy
-      - ./build:/srv/app
+      - ./docker/caddy/config:/etc/caddy
+      - ./frontend/build:/srv/app
       - ./media:/srv/media
+  pocketbase:
+    build:
+      context: ./docker/pocketbase
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./docker/pocketbase/pb_data:/pb/pb_data

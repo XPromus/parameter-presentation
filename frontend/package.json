@@ -26,7 +26,10 @@
 	},
 	"dependencies": {
 		"@beyonk/svelte-carousel": "^2.9.0",
+		"@iconify/svelte": "^5.0.1",
 		"@sveltejs/enhanced-img": "^0.7.0",
-		"@sveltejs/kit": "^2.22.0"
+		"@sveltejs/kit": "^2.22.0",
+		"@thisux/sveltednd": "^0.0.20",
+		"pocketbase": "^0.26.2"
 	}
 }
