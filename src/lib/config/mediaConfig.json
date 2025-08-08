@@ -15,15 +15,21 @@
         },
         {
             "index": 2,
-            "type": "video",
-            "filename": "video.mp4",
-            "duration": 5
+            "type": "image",
+            "filename": "3.jpg",
+            "duration": 5000
         },
         {
             "index": 3,
             "type": "image",
-            "filename": "2.jpg",
+            "filename": "4.jpg",
             "duration": 5000
+        },
+        {
+            "index": 4,
+            "type": "video",
+            "filename": "video.mp4",
+            "duration": 5
         }
     ]
 }

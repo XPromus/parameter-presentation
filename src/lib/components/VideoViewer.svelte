@@ -27,7 +27,7 @@
     });
 </script>
 
-<div class="w-full block">
+<div class="w-full flex items-center justify-center">
     <!-- svelte-ignore a11y_media_has_caption -->
-    <video onended={onFinish} bind:paused={paused} bind:currentTime={currentVideoTime} bind:duration={videoLength} src={GetMediaPath(data)} autoplay></video>
+    <video class="w-full h-full object-contain" onended={onFinish} bind:paused={paused} bind:currentTime={currentVideoTime} bind:duration={videoLength} src={GetMediaPath(data)} autoplay></video>
 </div>

@@ -35,8 +35,8 @@
 
 <div role="button" tabindex="0" onmouseleave={() => {showControls = false}} class="absolute bottom-0 left-0 z-20 bg-slate-200/40 flex items-center justify-center w-screen opacity-0 hover:opacity-100 transition-opacity duration-200">
     {#if currentContentType == ContentType.IMAGE}
-        <div class="flex flex-row space-x-5 p-2 w-full justify-center">
-            <button onclick={contentCarousel.onBack} class="bg-slate-300 px-5 py-1 rounded-md hover:cursor-pointer hover:bg-slate-500 hover:text-white transition-all duration-200">
+        <div class="flex flex-row space-x-5 p-5 w-full justify-center">
+            <button onclick={contentCarousel.onBack} class="grow bg-slate-300 px-5 py-1 rounded-md hover:cursor-pointer hover:bg-slate-500 hover:text-white transition-all duration-200">
                 {"<"}
             </button>
             {#if autoplay}
@@ -48,14 +48,20 @@
                     Turn Autoplay On
                 </button>
             {/if}
-            <button onclick={contentCarousel.onContinue} class="bg-slate-300 px-5 py-1 rounded-md hover:cursor-pointer hover:bg-slate-500 hover:text-white transition-all duration-200">
+            <button onclick={contentCarousel.onContinue} class="grow bg-slate-300 px-5 py-1 rounded-md hover:cursor-pointer hover:bg-slate-500 hover:text-white transition-all duration-200">
                 {">"}
             </button>
         </div>
     {:else if currentContentType == ContentType.VIDEO}
-        <div class="flex flex-col space-x-5 p-2 w-full justify-center">
+        <div class="flex flex-col space-x-5 p-5 w-full justify-center space-y-5">
+            <div class="flex flex-row space-x-5 w-full">
+                <input class="grow basis-10/12" type="range" bind:value={currentVideoTime} min="0" max={videoLength} name="" id="">
+                <span class="basis-2/12 text-center p-2 text-white font-bold bg-slate-500 rounded-md">
+                    {getVideoTimeString()}
+                </span>
+            </div>
             <div class="flex flex-row space-x-5 w-full justify-center">
-                <button onclick={contentCarousel.onBack} class="bg-slate-300 px-5 py-1 rounded-md hover:cursor-pointer hover:bg-slate-500 hover:text-white transition-all duration-200">
+                <button onclick={contentCarousel.onBack} class="grow bg-slate-300 px-5 py-1 rounded-md hover:cursor-pointer hover:bg-slate-500 hover:text-white transition-all duration-200">
                     {"<"}
                 </button>
                 {#if autoplay}
@@ -74,13 +80,9 @@
                         Pause Video
                     {/if}
                 </button>
-                <button onclick={contentCarousel.onContinue} class="bg-slate-300 px-5 py-1 rounded-md hover:cursor-pointer hover:bg-slate-500 hover:text-white transition-all duration-200">
+                <button onclick={contentCarousel.onContinue} class="grow bg-slate-300 px-5 py-1 rounded-md hover:cursor-pointer hover:bg-slate-500 hover:text-white transition-all duration-200">
                     {">"}
                 </button>
-            </div>
-            <div class="flex flex-row space-x-5 w-full">
-                <input class="grow basis-10/12" type="range" bind:value={currentVideoTime} min="0" max={videoLength} name="" id="">
-                <span class="basis-2/12 text-center">{getVideoTimeString()}</span>
             </div>
         </div>
     {/if}

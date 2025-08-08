@@ -38,14 +38,15 @@
 
     export const onBack = () => {
         if (currentIndex > 0) {
+            elapsed = 0;
             currentIndex--;
             setContentTypeForCurrentIndex();
-            elapsed = 0;
         }
     }
 
     export const onContinue = () => {
         if (currentIndex < GetAllMedia().length - 1){
+            elapsed = 0;
             currentIndex++;
             setContentTypeForCurrentIndex();
         }
@@ -63,6 +64,7 @@
     } 
 
     const setContentTypeForCurrentIndex = () => {
+        console.log(currentIndex);
         currentContent = GetMediaDataAtIndex(currentIndex);
         switch(currentContent.type) {
             case "image":
