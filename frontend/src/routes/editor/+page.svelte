@@ -133,13 +133,16 @@
             Reset
         </button>
         {#if mode == EditorMode.EDIT}
-            <button onclick={onApply} class="basis-1/2 bg-green-500 px-5 py-1 rounded-md hover:cursor-pointer hover:bg-green-700 hover:text-white transition-all duration-200">
-                {#if isDirty}
+            {#if isDirty}
+                <button onclick={onApply} class="basis-1/2 bg-green-500 px-5 py-1 rounded-md hover:cursor-pointer hover:bg-green-700 hover:text-white transition-all duration-200">
                     Apply *
-                {:else}
+                </button>
+            {:else}
+                <button onclick={onApply} class="basis-1/2 bg-green-500 px-5 py-1 rounded-md hover:cursor-pointer hover:bg-green-700 hover:text-white transition-all duration-200 opacity-50">
                     Apply
-                {/if}
-            </button>
+                </button>
+            {/if}
+            
         {:else if mode == EditorMode.DELETE}
             <button onclick={onApply} class="basis-1/2 bg-red-500 px-5 py-1 rounded-md hover:cursor-pointer hover:bg-red-700 text-white transition-all duration-200">
                 Delete
