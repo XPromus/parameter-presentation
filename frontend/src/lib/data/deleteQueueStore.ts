@@ -1,37 +1,68 @@
-import { deleteImage } from "$lib/api/ImageServerAPI";
+import { deleteImage } from "$lib/api/imageServerAPI";
+import { deleteVideo } from "$lib/api/videoServerAPI";
+import { MediaType } from "$lib/types/mediaTypes";
 import { writable } from "svelte/store";
 
-export const deleteQueue = writable<string[]>([]);
+export type DeleteEntry = {
+    id: string,
+    mediaType: MediaType
+}
 
-export const addIdToDeleteQueue = (id: string) => {
+export const deleteQueue = writable<DeleteEntry[]>([]);
+
+export const addIdToDeleteQueue = (newEntry: DeleteEntry) => {
     deleteQueue.update((list) => {
-        const indexOf = list.indexOf(id);
-        if (indexOf == -1) {
-            list.push(id);
+        if (!isElementInList(newEntry.id, list)[0]) {
+            list.push(newEntry);
         }
         return list;
     })
 }
 
-export const removeIdFromDeleteQueue = (id: string) => {
+export const removeIdFromDeleteQueue = (targetEntry: DeleteEntry) => {
     deleteQueue.update((list) => {
-        const indexOf = list.indexOf(id);
-        if (indexOf == -1) {
-            throw new Error(`Element with id ${id} could bot be found`);
+        const listCheck = isElementInList(targetEntry.id, list)
+        if (listCheck[0]) {
+            list.splice(listCheck[1], 1);
+            return list;
         }
-        list.splice(indexOf, 1);
 
-        return list;
+        throw new Error(`Element with id ${targetEntry.id} could not be found in delete queue.`);
     });
 }
 
-export const applyDeleteQueue = async (idList: string[]) => {
-    for (let index = 0; index < idList.length; index++) {
-        const element = idList[index];
-        await deleteImage(element)
+export const removeElementFromListByIndex = (index: number) => {
+    deleteQueue.update((list) => {
+        list.splice(index, 1);
+        return list;
+    })
+}
+
+export const applyDeleteQueue = async (queue: DeleteEntry[]) => {
+    for (let i = 0; i < queue.length; i++) {
+        const element = queue[i];
+
+        switch (queue[i].mediaType) {
+            case MediaType.IMAGE:
+                await deleteImage(element.id);
+                break;
+            case MediaType.VIDEO:
+                await deleteVideo(element.id)
+                break;
+        }
+        
     }
 }
 
 export const clearDeleteQueue = () => {
     deleteQueue.set([]);
+}
+
+export const isElementInList = (id: string, list: DeleteEntry[]): [boolean, number] => {
+    for (let i = 0; i < list.length; i++) {
+        const listItem = list[i];
+        if (listItem.id == id) return [true, i];
+    }
+
+    return [false, -1];
 }
