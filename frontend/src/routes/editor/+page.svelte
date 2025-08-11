@@ -4,14 +4,14 @@
     import MediaAddDialog from "$lib/components/editor/MediaAddDialog.svelte";
     import { onMount } from "svelte";
     import { flip } from 'svelte/animate';
-    import { addIdToDeleteQueue, applyDeleteQueue, clearDeleteQueue, deleteQueue, isElementInList, removeElementFromListByIndex, type DeleteEntry } from '$lib/data/deleteQueueStore';
+    import { addIdToDeleteQueue, applyDeleteQueue, clearDeleteQueue, deleteQueue, isElementInListWithIndex, removeElementFromListByIndex } from '$lib/data/deleteQueueStore';
     import { EditorMode } from "$lib/config/editorMode";
     import Icon from '@iconify/svelte';
     import ContentTypeCrumb from '$lib/components/editor/ContentTypeCrumb.svelte';
-    import { MediaType, type MediaRecord } from '$lib/types/mediaTypes';
-    import { getAllMediaRecords, updateAllMediaRecords } from '$lib/middleware/editorMiddleware';
+    import type { MediaRecord } from '$lib/types/mediaTypes';
     import VideoCard from '$lib/components/editor/VideoCard.svelte';
     import ContentIndexCrumb from '$lib/components/editor/ContentIndexCrumb.svelte';
+    import { getAllMedia, updateMediaByList } from '$lib/api/mediaServerAPI';
     
     let media: MediaRecord[] = $state([]);
 
@@ -21,16 +21,14 @@
     const onApply = async () => {
         switch(mode){
             case EditorMode.EDIT:
-                await updateAllMediaRecords(media);
+                await updateMediaByList(media);
                 await updateList();
                 isDirty = false;
                 break;
             case EditorMode.DELETE:
                 await applyDeleteQueue($deleteQueue);
                 clearDeleteQueue();
-                let tempList = await getAllMediaRecords();
-                tempList = updateMediaIndex(tempList);
-                media = await updateAllMediaRecords(tempList);
+                await updateList();
                 mode = EditorMode.EDIT;
                 break;
         }
@@ -42,16 +40,15 @@
             mode = EditorMode.EDIT;
         }
         
-        media = await getAllMediaRecords();
+        await updateList();
         isDirty = false;
     }
 
-    const onDelete = (id: string, mediaType: MediaType) => {
+    const onDelete = (id: string) => {
         mode = EditorMode.DELETE;
-        const deleteEntry: DeleteEntry = {id, mediaType};
-        const queueCheck = isElementInList(deleteEntry.id, $deleteQueue);
+        const queueCheck = isElementInListWithIndex(id, $deleteQueue);
         if (!queueCheck[0]) {
-            addIdToDeleteQueue(deleteEntry);
+            addIdToDeleteQueue(id);
         } else {
             removeElementFromListByIndex(queueCheck[1]);
         }
@@ -70,15 +67,13 @@
 
     const updateMediaIndex = (list: MediaRecord[]): MediaRecord[] => {
         for (let i = 0; i < list.length; i++) {
-            console.log(list[i]);
             list[i].index = i;
-            list[i].raw.index = i;
         }
         return list;
     }
 
     const getDeleteBorderColor = (id: string): string => {
-        if (isElementInList(id, $deleteQueue)[0]) {
+        if (isElementInListWithIndex(id, $deleteQueue)[0]) {
             return "border border-red-500 bg-red-300"
         } else {
             return "bg-white/50 hover:bg-white/60"
@@ -86,7 +81,10 @@
     }
 
     const updateList = async () => {
-        media = updateMediaIndex(await getAllMediaRecords());
+        const currentMedia = await getAllMedia();
+        const updated = updateMediaIndex(currentMedia);
+        await updateMediaByList(updated);
+        media = await getAllMedia();
     }
 
     onMount(async () => {
@@ -100,7 +98,7 @@
             <div
                 use:droppable={{ container: i.toString(), callbacks: { onDrop: handleDrop } }}
                 class="relative aspect-square rounded-xl p-5 backdrop-blur-sm
-                        transition-all duration-300  {getDeleteBorderColor(card.raw.id)}" 
+                        transition-all duration-300  {getDeleteBorderColor(card.id)}" 
                 animate:flip={{ duration: 300 }}
             >
                 <div class="flex flex-row pb-5">
@@ -109,11 +107,11 @@
                         <ContentTypeCrumb mediaType={card.type} />    
                     </div>
                     <div class="grow"></div>
-                    <button onclick={() => onDelete(card.raw.id, card.type)} class="flex items-center justify-center w-10 h-10 font-bold text-white bg-red-500 rounded-full disabled:bg-gray-700 disabled:opacity-50 hover:cursor-pointer hover:bg-red-700" disabled={isDirty}>
+                    <button onclick={() => onDelete(card.id)} class="flex items-center justify-center w-10 h-10 font-bold text-white bg-red-500 rounded-full disabled:bg-gray-700 disabled:opacity-50 hover:cursor-pointer hover:bg-red-700" disabled={isDirty}>
                         {#if mode == EditorMode.EDIT}
                             <Icon icon="material-symbols:delete" width="20" height="20" />                        
                         {:else if mode == EditorMode.DELETE}
-                            {#if isElementInList(card.raw.id, $deleteQueue)[0]}
+                            {#if isElementInListWithIndex(card.id, $deleteQueue)[0]}
                                 <Icon icon="material-symbols:check-box-outline-rounded" width="20" height="20" />
                             {:else}
                                 <Icon icon="material-symbols:check-box-outline-blank" width="20" height="20" />
@@ -129,18 +127,18 @@
                         }}
                         class={`h-full w-full cursor-move rounded-lg bg-gradient-to-br svelte-dnd-touch-feedback shadow-lg transition-all duration-300 hover:shadow-xl active:scale-95 active:brightness-110`}
                     >
-                        {#if card.type == MediaType.IMAGE}
-                            <ImageCard setIsDirty={() => {isDirty = true}} targetImage={card} />
-                        {:else if card.type == MediaType.VIDEO}
-                            <VideoCard setIsDirty={() => {isDirty = true}} targetVideo={card} />
+                        {#if card.type == "image"}
+                            <ImageCard setIsDirty={() => {isDirty = true}} media={card} />
+                        {:else if card.type == "video"}
+                            <VideoCard setIsDirty={() => {isDirty = true}} media={card} />
                         {/if}
                     </div>
                 {:else if mode == EditorMode.DELETE}
                     <div class={`h-full w-full cursor-move rounded-lg bg-gradient-to-br transition-all duration-300`}>
-                        {#if card.type == MediaType.IMAGE}
-                            <ImageCard setIsDirty={() => {isDirty = true}} targetImage={card} />
-                        {:else if card.type == MediaType.VIDEO}
-                            <VideoCard setIsDirty={() => {isDirty = true}} targetVideo={card} />
+                        {#if card.type == "image"}
+                            <ImageCard setIsDirty={() => {isDirty = true}} media={card} />
+                        {:else if card.type == "video"}
+                            <VideoCard setIsDirty={() => {isDirty = true}} media={card} />
                         {/if}
                     </div>
                 {/if}
@@ -149,7 +147,7 @@
         {/each}
     </div>
     <div class="grow"></div>
-    <MediaAddDialog onUpload={updateList} editorMode={mode} maxIndex={media[media.length - 1].index}/>
+    <MediaAddDialog onUpload={updateList} editorMode={mode} maxIndex={media.length}/>
     <div class="flex flex-row space-x-5">
         <a href="/editor/settings" class="px-5 py-1 text-center transition-all duration-200 bg-gray-400 rounded-md grow hover:cursor-pointer hover:bg-gray-600 hover:text-white">
             Settings

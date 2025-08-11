@@ -1,8 +1,8 @@
 <script lang="ts">
-    import { addImage } from "$lib/api/imageServerAPI";
-    import { addVideo } from "$lib/api/videoServerAPI";
+    import { addMedia } from "$lib/api/mediaServerAPI";
     import { EditorMode } from "$lib/config/editorMode";
     import { editorSettings } from "$lib/data/editorSettingsStore";
+    import type { MediaCreateData } from "$lib/types/mediaTypes";
     import Icon from '@iconify/svelte';
     import { onMount } from "svelte";
 
@@ -34,22 +34,12 @@
                 const element = files.item(index);
                 if (element == null) throw new Error(`File error with file ${index}`);
                 
-                const elementType = element.type.split("/");
-                switch(elementType[0]){
-                    case "image":
-                        await addImage({
-                            image: element,
-                            duration: duration,
-                            index: maxIndex + index + 1
-                        });
-                        break;
-                    case "video":
-                        await addVideo({
-                            video: element,
-                            index: maxIndex + index + 1
-                        });
-                        break;
-                }   
+                await addMedia({
+                    content: element,
+                    duration: duration,
+                    index: maxIndex + index,
+                    type: element.type.split("/")[0]
+                } satisfies MediaCreateData); 
             }
 
             onClearFiles();           
