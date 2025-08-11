@@ -125,7 +125,7 @@
                             container: i.toString(),
                             dragData: card
                         }}
-                        class={`h-full w-full cursor-move rounded-lg bg-gradient-to-br svelte-dnd-touch-feedback shadow-lg transition-all duration-300 hover:shadow-xl active:scale-95 active:brightness-110`}
+                        class={`h-full w-full cursor-move rounded-lg bg-gradient-to-br svelte-dnd-touch-feedback transition-all duration-300 active:scale-95 active:brightness-110`}
                     >
                         {#if card.type == "image"}
                             <ImageCard setIsDirty={() => {isDirty = true}} media={card} />
@@ -149,6 +149,16 @@
     <div class="grow"></div>
     <MediaAddDialog onUpload={updateList} editorMode={mode} maxIndex={media.length}/>
     <div class="flex flex-row space-x-5">
+        {#if isDirty}
+            <a href="" class="items-center px-5 py-1 text-center duration-200 bg-gray-400 rounded-md opacity-50 grow">
+                <Icon icon="material-symbols:arrow-back-2-rounded" width="24" height="24" />
+            </a>
+        {:else}
+            <a href="/presentation" class="items-center px-5 py-1 text-center duration-200 bg-gray-400 rounded-md grow hover:cursor-pointer hover:bg-gray-600 hover:text-white">
+                <Icon icon="material-symbols:arrow-back-2-rounded" width="24" height="24" />
+            </a>
+        {/if}
+        
         <a href="/editor/settings" class="px-5 py-1 text-center transition-all duration-200 bg-gray-400 rounded-md grow hover:cursor-pointer hover:bg-gray-600 hover:text-white">
             Settings
         </a>

@@ -19,7 +19,7 @@
     <img class="object-contain rounded-md" src={getMediaURL(media)} alt="Record">
     <div class="grow"></div>
     <div class="flex flex-row space-x-5"> 
-        <span>Duration (ms)</span>
+        <span class="font-bold">Duration (ms)</span>
         <input oninput={onChange} class="px-2 rounded-md bg-slate-200 grow" bind:value={media.duration} type="number">
     </div>
 </div>

@@ -1,5 +1,6 @@
 <script lang="ts">
-    import { GetMediaPath, type MediaData } from "$lib/MediaLoader";
+    import { getMediaURL } from "$lib/api/mediaServerAPI";
+    import type { MediaRecord } from "$lib/types/mediaTypes";
     import { onMount } from "svelte";
 
     let { 
@@ -9,7 +10,7 @@
         videoLength = $bindable(),
         currentVideoTime = $bindable(), 
     }: { 
-        data: MediaData, 
+        data: MediaRecord, 
         onFinish: any, 
         paused: boolean,
         videoLength: number,
@@ -27,7 +28,7 @@
     });
 </script>
 
-<div class="w-full flex items-center justify-center">
+<div class="flex items-center justify-center w-full">
     <!-- svelte-ignore a11y_media_has_caption -->
-    <video class="w-full h-full object-contain" onended={onFinish} bind:paused={paused} bind:currentTime={currentVideoTime} bind:duration={videoLength} src={GetMediaPath(data)} autoplay></video>
+    <video class="object-contain w-full h-full" onended={onFinish} bind:paused={paused} bind:currentTime={currentVideoTime} bind:duration={videoLength} src={getMediaURL(data)} autoplay></video>
 </div>
