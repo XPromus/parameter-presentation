@@ -60,9 +60,9 @@
 
 <div class="flex flex-row space-x-5 grow">
     <div class="flex flex-col space-y-5 grow">
-        <div class="flex flex-row space-x-5">
-            <span class="text-white basis-1/5">Files</span>
-            <input bind:value={fileInputValue} bind:files={files} multiple class="p-1 rounded-md grow bg-slate-300 disabled:opacity-50" type="file" disabled={disabled} accept={getMimeString()}>
+        <div class="flex flex-row items-center space-x-5">
+            <span class="text-white basis-1/5">New Files</span>
+            <input bind:value={fileInputValue} bind:files={files} multiple class="h-full p-1 text-center rounded-md grow bg-slate-300 disabled:opacity-50" type="file" disabled={disabled} accept={getMimeString()}>
             <button onclick={onClearFiles} class="p-2 transition-all duration-150 bg-red-500 rounded-md hover:bg-red-700 hover:cursor-pointer active:bg-red-900 hover:text-white">
                 <Icon icon="material-symbols:remove" width="24" height="24" />
             </button>

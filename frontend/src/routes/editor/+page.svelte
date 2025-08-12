@@ -49,9 +49,9 @@
 
     const getDeleteBorderColor = (id: string): string => {
         if (isElementInListWithIndex(id, $deleteQueue)[0]) {
-            return "border border-red-500 bg-red-300"
+            return "border border-red-500 bg-red-300/10"
         } else {
-            return "bg-white/50 hover:bg-white/60"
+            return "bg-gray-800"
         }
     }
 
@@ -68,12 +68,12 @@
 </script>
 
 <div class="flex flex-col w-screen h-screen p-5 space-y-5">
-    <div class="grid grid-cols-3 gap-6 overflow-y-scroll xl:grid-cols-6">
+    <div class="grid grid-cols-3 gap-6 overflow-y-scroll xl:grid-cols-6 grow">
         {#each media as card, i (card.index)}
             <div
                 use:droppable={{ container: i.toString(), callbacks: { onDrop: handleDrop } }}
                 class="relative aspect-square rounded-xl p-5 backdrop-blur-sm
-                        transition-all duration-300  {getDeleteBorderColor(card.id)}" 
+                        transition-all duration-300 shadow-md {getDeleteBorderColor(card.id)}" 
                 animate:flip={{ duration: 300 }}
             >
                 <div class="flex flex-row pb-5">
@@ -86,14 +86,18 @@
                         <div use:draggable={{
                             container: i.toString(),
                             dragData: card
-                        }} class="flex items-center justify-center text-gray-500 transition-all duration-300 rounded-md cursor-move grow basis-1/3 bg-gradient-to-br svelte-dnd-touch-feedback hover:scale-x-130 hover:bg-slate-500/50 hover:text-white active:text-black active:scale-x-130 active:scale-95 active:brightness-110"
+                        }} class="flex items-center justify-center text-gray-500 transition-all duration-300 rounded-md cursor-move grow basis-1/3 bg-gradient-to-br svelte-dnd-touch-feedback hover:scale-110 hover:text-white active:text-red-500 active:scale-x-130 active:scale-95 active:brightness-110"
                         >
                             <Icon icon="material-symbols:arrows-output-rounded" width="24" height="24" />
                         </div>
                     {/if}
                     
                     <div class="flex flex-row-reverse grow basis-1/3">
-                        <button onclick={() => onDelete(card.id)} class="flex items-center justify-center w-10 h-10 font-bold text-white bg-red-500 rounded-full disabled:bg-gray-700 disabled:opacity-50 hover:cursor-pointer hover:bg-red-700" disabled={isDirty}>
+                        <button 
+                            onclick={() => onDelete(card.id)} 
+                            class="flex items-center justify-center w-10 h-10 font-bold text-red-500 border rounded-full bg-red-400/10 disabled:bg-gray-700 disabled:opacity-50 hover:cursor-pointer hover:bg-red-700/10 border-red-300/10" 
+                            disabled={isDirty}
+                        >
                             {#if mode == EditorMode.EDIT}
                                 <Icon icon="material-symbols:delete" width="20" height="20" />                        
                             {:else if mode == EditorMode.DELETE}
@@ -127,9 +131,6 @@
             </div>
         {/each}
     </div>
-    
-    <div class="grow"></div>
-
     <EditMenu 
         bind:isDirty={isDirty} 
         updateList={updateList} 

@@ -47,12 +47,9 @@
 
 </script>
 
-<div class="flex flex-col w-full space-y-5 h-fit">
+<div class="flex flex-col w-full p-5 space-y-5 bg-gray-800 rounded-md h-fit">
     <div class="flex flex-row space-x-5">
         <MediaAddDialog onUpload={updateList} editorMode={mode} maxIndex={media.length}/>
-        <div class="basis-1/2">
-
-        </div>
     </div>
     <div class="flex flex-row space-x-5">
         {#if isDirty}
@@ -72,7 +69,6 @@
                 <span>To Presentation</span>
             </a>
         {/if}
-        
         <a href="/editor/settings" class="px-5 py-1 text-center transition-all duration-200 bg-gray-400 rounded-md grow hover:cursor-pointer hover:bg-gray-600 hover:text-white">
             Settings
         </a>
@@ -81,11 +77,11 @@
         </button>
         {#if mode == EditorMode.EDIT}
             {#if isDirty}
-                <button onclick={onApply} class="px-5 py-1 transition-all duration-200 bg-green-500 rounded-md basis-1/2 hover:cursor-pointer hover:bg-green-700 hover:text-white active:bg-green-900">
+                <button onclick={onApply} class="px-5 py-1 text-green-400 transition-all duration-200 border border-green-500 rounded-md bg-green-400/10 basis-1/2 hover:cursor-pointer hover:bg-green-700/10 hover:text-green-400 active:bg-green-900">
                     Apply *
                 </button>
             {:else}
-                <button onclick={onApply} class="px-5 py-1 transition-all duration-200 bg-green-500 rounded-md opacity-50 basis-1/2">
+                <button onclick={onApply} class="px-5 py-1 text-green-400 transition-all duration-200 border border-green-500 rounded-md opacity-50 bg-green-400/10 basis-1/2">
                     Apply
                 </button>
             {/if}
