@@ -10,6 +10,7 @@ export type MediaRecord = {
     duration: number,
     index: number,
     type: string,
+    name: string,
     created: string,
     updated: string
 }
@@ -24,11 +25,13 @@ export type MediaRecordUpdate = {
     duration: number,
     index: number,
     type: string,
+    name: string
 }
 
 export type MediaCreateData = {
     content: File,
     duration: number,
     index: number,
-    type: string
+    type: string,
+    name: string
 }

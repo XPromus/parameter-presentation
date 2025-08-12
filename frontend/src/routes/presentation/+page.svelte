@@ -2,6 +2,7 @@
     import ContentCarousel from '$lib/components/presentation/ContentCarousel.svelte';
     import type { SvelteComponent } from 'svelte';
     import type { PageProps } from './$types';
+    import Icon from '@iconify/svelte';
 
     let { data }: PageProps = $props();
 
@@ -43,9 +44,14 @@
 </div>
 
 <div role="button" tabindex="0" onmouseleave={() => {showControls = false}} class="absolute bottom-0 left-0 z-20 flex items-center justify-center w-screen px-5 transition-opacity duration-200 opacity-0 bg-slate-200/40 hover:opacity-100">
-    <a href="/editor" class="px-5 py-1 text-center transition-all duration-200 bg-gray-400 rounded-md grow hover:cursor-pointer hover:bg-gray-600 hover:text-white">
-        Edit
-    </a>
+    <div class="flex flex-row space-x-5">
+        <a href="/" class="items-center px-5 py-1 text-center duration-200 rounded-md bg-slate-400 hover:cursor-pointer hover:bg-slate-600 hover:text-white">
+            <Icon icon="material-symbols:home-rounded" width="24" height="24" />
+        </a>
+        <a href="/editor" class="px-5 py-1 text-center transition-all duration-200 rounded-md bg-slate-400 grow hover:cursor-pointer hover:bg-slate-600 hover:text-white">
+            <Icon icon="material-symbols:edit-rounded" width="24" height="24" />
+        </a>
+    </div>
     {#if currentContentType == "image"}
         <div class="flex flex-row justify-center w-full p-5 space-x-5">
             <button onclick={contentCarousel.onBack} class="py-1 transition-all duration-200 rounded-md grow bg-slate-300 hover:cursor-pointer hover:bg-slate-500 hover:text-white">

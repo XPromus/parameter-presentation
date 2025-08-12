@@ -31,7 +31,8 @@ export const updateMedia = async (media: MediaRecord): Promise<MediaRecord> => {
     const data: MediaRecordUpdate = {
         duration: media.duration,
         index: media.index,
-        type: media.type
+        type: media.type,
+        name: media.name
     };
     return await pb.collection(apiConfig.mediaCollectionName).update(media.id, data);
 }

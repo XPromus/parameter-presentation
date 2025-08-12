@@ -9,6 +9,7 @@
     let { editorMode, onUpload, maxIndex }: { editorMode: EditorMode, onUpload: any, maxIndex: number } = $props();
     let disabled = $derived(editorMode == EditorMode.DELETE);
 
+    let fileInputValue: string = $state("");
     let files: FileList | undefined = $state();
     let duration: number = $state($editorSettings.defaultDuration);
 
@@ -38,7 +39,8 @@
                     content: element,
                     duration: duration,
                     index: maxIndex + index,
-                    type: element.type.split("/")[0]
+                    type: element.type.split("/")[0],
+                    name: "New Element"
                 } satisfies MediaCreateData); 
             }
 
@@ -48,7 +50,7 @@
     }
 
     const onClearFiles = () => {
-        files = undefined;
+        fileInputValue = "";
     }
 
     onMount(() => {
@@ -56,19 +58,21 @@
     });
 </script>
 
-<div class="flex flex-row space-x-5">
+<div class="flex flex-row space-x-5 grow">
     <div class="flex flex-col space-y-5 grow">
         <div class="flex flex-row space-x-5">
-            <span class="basis-1/5 text-white">Files</span><input bind:files={files} multiple class="grow bg-slate-300 rounded-md disabled:opacity-50" type="file" disabled={disabled} accept={getMimeString()}>
-            <button class="p-2 bg-red-500 rounded-md hover:bg-red-700 hover:cursor-pointer">
+            <span class="text-white basis-1/5">Files</span>
+            <input bind:value={fileInputValue} bind:files={files} multiple class="p-1 rounded-md grow bg-slate-300 disabled:opacity-50" type="file" disabled={disabled} accept={getMimeString()}>
+            <button onclick={onClearFiles} class="p-2 transition-all duration-150 bg-red-500 rounded-md hover:bg-red-700 hover:cursor-pointer active:bg-red-900 hover:text-white">
                 <Icon icon="material-symbols:remove" width="24" height="24" />
             </button>
         </div>
         <div class="flex flex-row space-x-5">
-            <span class="basis-1/5 text-white">Duration</span><input bind:value={duration} class="grow bg-slate-300 rounded-md disabled:opacity-50" type="number" disabled={disabled}>
+            <span class="text-white basis-1/5">Duration (ms)</span>
+            <input bind:value={duration} class="p-1 rounded-md grow bg-slate-300 disabled:opacity-50" type="number" disabled={disabled}>
         </div>
     </div>
-    <button onclick={onAdd} class="flex bg-slate-500 p-5 rounded-md space-y-5 justify-center items-center enabled:hover:bg-slate-700 enabled:hover:cursor-pointer transition-all duration-200 disabled:opacity-50" disabled={disabled}>
+    <button onclick={onAdd} class="flex items-center justify-center p-5 space-y-5 transition-all duration-150 rounded-md bg-slate-500 enabled:hover:bg-slate-700 enabled:hover:cursor-pointer disabled:opacity-50" disabled={disabled}>
         <span class="text-xl text-white">
             <Icon icon="material-symbols:add-2-rounded" width="24" height="24" />
         </span>
