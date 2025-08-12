@@ -5,6 +5,6 @@
     let { data }: { data: MediaRecord } = $props();
 </script>
 
-<div class="flex items-center justify-center w-full">
-    <img class="object-contain w-full h-full" src={getMediaURL(data)} alt="Image" />
+<div class="flex justify-center w-full max-h-full min-w-0 min-h-0">
+    <img class="object-contain h-full" src={getMediaURL(data)} alt="Image" />
 </div>

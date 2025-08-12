@@ -15,7 +15,7 @@
     }
 </script>
 
-<div class="flex flex-col space-y-5 rounded-md">
-    <video class="object-contain w-full h-full rounded-md" src={getMediaURL(media)} controls></video>
+<div class="flex flex-col w-full h-full space-y-5 rounded-md">
+    <video class="h-full max-w-full max-h-full min-w-0 min-h-0 rounded-md bg-slate-500/50" src={getMediaURL(media)} controls></video>
     <div class="grow"></div>
 </div>

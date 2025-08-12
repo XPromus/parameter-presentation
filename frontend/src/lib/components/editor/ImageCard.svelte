@@ -15,8 +15,10 @@
     }
 </script>
 
-<div class="flex flex-col space-y-5 rounded-md">
-    <img class="object-contain rounded-md" src={getMediaURL(media)} alt="Record">
+<div class="flex flex-col items-center h-full max-h-full rounded-md">
+    <div class="flex justify-center w-full min-h-0 rounded-md max-h-1/2 basis-1/2 bg-slate-500/50"> 
+        <img class="object-contain h-full rounded-md" src={getMediaURL(media)} alt="Record">
+    </div>
     <div class="grow"></div>
     <div class="flex flex-row space-x-5"> 
         <span class="font-bold">Duration (ms)</span>

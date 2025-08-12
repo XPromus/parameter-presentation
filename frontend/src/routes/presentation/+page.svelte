@@ -30,18 +30,16 @@
     }
 </script>
 
-<div class="absolute top-0 left-0 flex flex-col w-screen h-screen">
-    <div class="flex flex-col grow">
-        <ContentCarousel 
-            media={data.media} 
-            bind:this={contentCarousel}
-            bind:videoLength={videoLength} 
-            bind:currentVideoTime={currentVideoTime} 
-            bind:videoPaused={videoPaused} 
-            bind:currentContentType={currentContentType} 
-            autoplay={autoplay} 
-        />
-    </div>
+<div class="absolute top-0 left-0 flex w-screen h-screen max-h-screen max-w-screen">
+    <ContentCarousel 
+        media={data.media} 
+        bind:this={contentCarousel}
+        bind:videoLength={videoLength} 
+        bind:currentVideoTime={currentVideoTime} 
+        bind:videoPaused={videoPaused} 
+        bind:currentContentType={currentContentType} 
+        autoplay={autoplay} 
+    />
 </div>
 
 <div role="button" tabindex="0" onmouseleave={() => {showControls = false}} class="absolute bottom-0 left-0 z-20 flex items-center justify-center w-screen px-5 transition-opacity duration-200 opacity-0 bg-slate-200/40 hover:opacity-100">
