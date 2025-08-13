@@ -1,6 +1,8 @@
 <script lang="ts">
     import { onMount } from "svelte";
     import { editorSettings } from "$lib/data/editorSettingsStore";
+    import Link from "$lib/components/interaction/Link.svelte";
+    import Input from "$lib/components/interaction/Input.svelte";
 
     let defaultDurationInput: number = $state(0);
 
@@ -17,14 +19,16 @@
     })
 </script>
 
-<div class="w-full h-full p-5 flex flex-col space-y-5">
+<div class="flex flex-col w-full h-full p-5 space-y-5">
     <div class="flex flex-row w-full">
-        <a href="/editor" class="bg-gray-500 px-5 py-1 rounded-md hover:cursor-pointer hover:bg-gray-700 hover:text-white transition-all duration-200">
-            {"< Back"}
-        </a>
+        <Link href="/editor" type="neutral">
+            {#snippet children()}
+                {"< Back"}
+            {/snippet}
+        </Link>
     </div>
-    <div class="flex flex-row space-x-5 w-full">
+    <div class="flex flex-row w-full space-x-5">
         <span class="text-white">Default Duration (ms)</span>
-        <input oninput={onDefaultDurationInput} bind:value={defaultDurationInput} class="grow bg-slate-200 rounded-md" type="number">
+        <Input onChange={onDefaultDurationInput} bind:value={defaultDurationInput} placeholder="Duration in ms" type="number" />
     </div>
 </div>

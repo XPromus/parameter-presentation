@@ -7,7 +7,7 @@
     }: {
         value: T,
         placeholder: string,
-        onChange: any,
+        onChange?: any,
         type: string
     } = $props();
 </script>

@@ -12,15 +12,3 @@
 <div class="w-screen h-screen bg-slate-800">
 	{@render children?.()}
 </div>
-
-<!-- <style>
-    input[type=number] {
-        -moz-appearance: textfield;
-    }
-
-    input::-webkit-outer-spin-button,
-    input::-webkit-inner-spin-button {
-        -webkit-appearance: none;
-        margin: 0;
-    }
-</style> -->

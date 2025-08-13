@@ -9,6 +9,6 @@
     {#if mediaType == "image"}
         <Icon class="text-pink-500" icon="material-symbols:image-outline" width={iconSize} height={iconSize} />    
     {:else if mediaType == "video"}
-        <Icon icon="material-symbols:hangout-video-rounded" width={iconSize} height={iconSize} />
+        <Icon class="text-pink-500" icon="material-symbols:hangout-video-rounded" width={iconSize} height={iconSize} />
     {/if}
 </span>

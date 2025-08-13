@@ -4,6 +4,8 @@
     import MediaAddDialog from "./MediaAddDialog.svelte";
     import type { MediaRecord } from "$lib/types/mediaTypes";
     import { applyDeleteQueue, clearDeleteQueue, deleteQueue } from "$lib/data/deleteQueueStore";
+    import Button from "../interaction/Button.svelte";
+    import Link from "../interaction/Link.svelte";
 
     let {
         isDirty = $bindable(),
@@ -52,43 +54,32 @@
         <MediaAddDialog onUpload={updateList} editorMode={mode} maxIndex={media.length}/>
     </div>
     <div class="flex flex-row space-x-5">
-        {#if isDirty}
-            <!-- svelte-ignore a11y_invalid_attribute -->
-            <a href="#" class="items-center px-5 py-1 text-center duration-200 bg-gray-400 rounded-md opacity-50">
+        <Link href="/" disabled={isDirty} type="neutral">
+            {#snippet children()}
                 <Icon icon="material-symbols:home-rounded" width="24" height="24" />
-            </a>
-            <!-- svelte-ignore a11y_invalid_attribute -->
-            <a href="#" class="items-center px-5 py-1 text-center duration-200 bg-gray-400 rounded-md opacity-50 grow">
+            {/snippet}
+        </Link>
+        <Link href="/presentation" disabled={isDirty} type="neutral">
+            {#snippet children()}
                 <span>To Presentation</span>
-            </a>
-        {:else}
-            <a href="/" class="items-center px-5 py-1 text-center duration-200 bg-gray-400 rounded-md hover:cursor-pointer hover:bg-gray-600 hover:text-white">
-                <Icon icon="material-symbols:home-rounded" width="24" height="24" />
-            </a>
-            <a href="/presentation" class="items-center px-5 py-1 text-center duration-200 bg-gray-400 rounded-md grow hover:cursor-pointer hover:bg-gray-600 hover:text-white">
-                <span>To Presentation</span>
-            </a>
-        {/if}
-        <a href="/editor/settings" class="px-5 py-1 text-center transition-all duration-200 bg-gray-400 rounded-md grow hover:cursor-pointer hover:bg-gray-600 hover:text-white">
-            Settings
-        </a>
-        <button onclick={onReset} class="px-5 py-1 transition-all duration-200 bg-gray-500 rounded-md grow hover:cursor-pointer hover:bg-gray-700 hover:text-white">
-            Reset
-        </button>
+            {/snippet}
+        </Link>
+        <Link href="/editor/settings" type="neutral">
+            {#snippet children()}
+                <span>Settings</span>
+            {/snippet}
+        </Link>
+        <Button action={onReset} type="neutral">
+            <span>Reset</span>
+        </Button>
         {#if mode == EditorMode.EDIT}
-            {#if isDirty}
-                <button onclick={onApply} class="px-5 py-1 text-green-400 transition-all duration-200 border border-green-500 rounded-md bg-green-400/10 basis-1/2 hover:cursor-pointer hover:bg-green-700/10 hover:text-green-400 active:bg-green-900">
-                    Apply *
-                </button>
-            {:else}
-                <button onclick={onApply} class="px-5 py-1 text-green-400 transition-all duration-200 border border-green-500 rounded-md opacity-50 bg-green-400/10 basis-1/2">
-                    Apply
-                </button>
-            {/if}
+            <Button action={onApply} type="success" disabled={!isDirty}>
+                <span>Apply</span>
+            </Button>
         {:else if mode == EditorMode.DELETE}
-            <button onclick={onApply} class="px-5 py-1 text-white transition-all duration-200 bg-red-500 rounded-md basis-1/2 hover:cursor-pointer hover:bg-red-700">
-                Delete
-            </button>
+            <Button action={onApply} type="danger">
+                <span>Delete</span>
+            </Button>
         {/if}
     </div>
 </div>

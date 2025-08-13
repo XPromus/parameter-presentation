@@ -1,7 +1,7 @@
 <script lang="ts">
     import { getMediaURL } from "$lib/api/mediaServerAPI";
     import type { MediaRecord } from "$lib/types/mediaTypes";
-    import Input from "./cards/Input.svelte";
+    import Input from "../interaction/Input.svelte";
     
     let {
         media,
@@ -21,7 +21,7 @@
     <div class="grow"></div>
     <div class="flex flex-col space-y-2">
         <div class="flex flex-row w-full space-x-2"> 
-            <span class="font-bold basis-2/5">Name</span>
+            <span class="text-white basis-2/5">Name</span>
             <Input bind:value={media.name} onChange={onChange} type="text" placeholder="Name of video" />
         </div>
     </div>

@@ -5,6 +5,9 @@
     import type { MediaCreateData } from "$lib/types/mediaTypes";
     import Icon from '@iconify/svelte';
     import { onMount } from "svelte";
+    import Button from "../interaction/Button.svelte";
+    import Input from "../interaction/Input.svelte";
+    import FileInput from "../interaction/FileInput.svelte";
 
     let { editorMode, onUpload, maxIndex }: { editorMode: EditorMode, onUpload: any, maxIndex: number } = $props();
     let disabled = $derived(editorMode == EditorMode.DELETE);
@@ -13,7 +16,7 @@
     let files: FileList | undefined = $state();
     let duration: number = $state($editorSettings.defaultDuration);
 
-    const allowedImageTypes = [ "image/jpg" ];
+    const allowedImageTypes = [ "image/jpg", "image/png", "image/jpeg" ];
     const allowedVideoTypes = [ "video/mp4" ];
 
     const getMimeString = (): string => {
@@ -62,19 +65,21 @@
     <div class="flex flex-col space-y-5 grow">
         <div class="flex flex-row items-center space-x-5">
             <span class="text-white basis-1/5">New Files</span>
-            <input bind:value={fileInputValue} bind:files={files} multiple class="h-full p-1 text-center rounded-md grow bg-slate-300 disabled:opacity-50" type="file" disabled={disabled} accept={getMimeString()}>
-            <button onclick={onClearFiles} class="p-2 transition-all duration-150 bg-red-500 rounded-md hover:bg-red-700 hover:cursor-pointer active:bg-red-900 hover:text-white">
-                <Icon icon="material-symbols:remove" width="24" height="24" />
-            </button>
+            <FileInput bind:fileInputValue={fileInputValue} bind:files={files} multiple disabled={disabled} accept={getMimeString()} />
+            <Button action={onClearFiles} type="danger">
+                {#snippet children()}
+                    <Icon icon="material-symbols:remove" width="24" height="24" />
+                {/snippet}
+            </Button>
         </div>
         <div class="flex flex-row space-x-5">
             <span class="text-white basis-1/5">Duration (ms)</span>
-            <input bind:value={duration} class="p-1 rounded-md grow bg-slate-300 disabled:opacity-50" type="number" disabled={disabled}>
+            <Input bind:value={duration} placeholder="Duration in ms" type="number" />
         </div>
     </div>
-    <button onclick={onAdd} class="flex items-center justify-center p-5 space-y-5 transition-all duration-150 rounded-md bg-slate-500 enabled:hover:bg-slate-700 enabled:hover:cursor-pointer disabled:opacity-50" disabled={disabled}>
+    <Button action={onAdd} type="neutral">
         <span class="text-xl text-white">
             <Icon icon="material-symbols:add-2-rounded" width="24" height="24" />
         </span>
-    </button>
+    </Button>
 </div>

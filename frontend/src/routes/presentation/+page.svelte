@@ -3,6 +3,8 @@
     import type { SvelteComponent } from 'svelte';
     import type { PageProps } from './$types';
     import Icon from '@iconify/svelte';
+    import Button from '$lib/components/interaction/Button.svelte';
+    import Link from '$lib/components/interaction/Link.svelte';
 
     let { data }: PageProps = $props();
 
@@ -43,32 +45,42 @@
     />
 </div>
 
-<div role="button" tabindex="0" onmouseleave={() => {showControls = false}} class="absolute bottom-0 left-0 z-20 flex items-center justify-center w-screen px-5 transition-opacity duration-200 opacity-0 bg-slate-200/40 hover:opacity-100">
+<div role="button" tabindex="0" onmouseleave={() => {showControls = false}} class="absolute bottom-0 left-0 z-20 flex items-center justify-center w-screen px-5 transition-opacity duration-200 opacity-0 bg-gray-900/90 hover:opacity-100">
     <div class="flex flex-row space-x-5">
-        <a href="/" class="items-center px-5 py-1 text-center duration-200 rounded-md bg-slate-400 hover:cursor-pointer hover:bg-slate-600 hover:text-white">
-            <Icon icon="material-symbols:home-rounded" width="24" height="24" />
-        </a>
-        <a href="/editor" class="px-5 py-1 text-center transition-all duration-200 rounded-md bg-slate-400 grow hover:cursor-pointer hover:bg-slate-600 hover:text-white">
+        <Link href="/" type="neutral">
+            {#snippet children()}
+                <Icon icon="material-symbols:home-rounded" width="24" height="24" />
+            {/snippet}
+        </Link>
+        <Link href="/editor" type="neutral">
             <Icon icon="material-symbols:edit-rounded" width="24" height="24" />
-        </a>
+        </Link>
     </div>
     {#if currentContentType == "image"}
         <div class="flex flex-row justify-center w-full p-5 space-x-5">
-            <button onclick={contentCarousel.onBack} class="py-1 transition-all duration-200 rounded-md grow bg-slate-300 hover:cursor-pointer hover:bg-slate-500 hover:text-white">
-                {"<"}
-            </button>
+            <Button action={contentCarousel.onBack} type="neutral">
+                {#snippet children()}
+                    <Icon icon="material-symbols:arrow-back-2-rounded" width="24" height="24" />
+                {/snippet}
+            </Button>
             {#if autoplay}
-                <button onclick={() => autoplay = !autoplay} class="px-5 py-1 transition-all duration-200 bg-red-500 rounded-md w-50 hover:cursor-pointer hover:bg-red-700 hover:text-white">
-                    Turn Autoplay Off
-                </button>
+                <Button action={() => { autoplay = !autoplay }} type="success">
+                    {#snippet children()}
+                        <span>Turn Autoplay Off</span>
+                    {/snippet}
+                </Button>
             {:else}
-                <button onclick={() => autoplay = !autoplay} class="px-5 py-1 transition-all duration-200 bg-green-500 rounded-md w-50 hover:cursor-pointer hover:bg-green-700 hover:text-white">
-                    Turn Autoplay On
-                </button>
+                <Button action={() => { autoplay = !autoplay }} type="success">
+                    {#snippet children()}
+                        <span>Turn Autoplay On</span>
+                    {/snippet}
+                </Button>
             {/if}
-            <button onclick={contentCarousel.onContinue} class="px-5 py-1 transition-all duration-200 rounded-md grow bg-slate-300 hover:cursor-pointer hover:bg-slate-500 hover:text-white">
-                {">"}
-            </button>
+            <Button action={contentCarousel.onContinue} type="neutral">
+                {#snippet children()}
+                    <Icon class="-scale-100" icon="material-symbols:arrow-back-2-rounded" width="24" height="24" />
+                {/snippet}
+            </Button>
         </div>
     {:else if currentContentType == "video"}
         <div class="flex flex-col justify-center w-full p-5 space-x-5 space-y-5">
@@ -79,28 +91,38 @@
                 </span>
             </div>
             <div class="flex flex-row justify-center w-full space-x-5">
-                <button onclick={contentCarousel.onBack} class="py-1 transition-all duration-200 rounded-md grow bg-slate-300 hover:cursor-pointer hover:bg-slate-500 hover:text-white">
-                    {"<"}
-                </button>
+                <Button action={contentCarousel.onBack} type="neutral">
+                    {#snippet children()}
+                        <Icon icon="material-symbols:arrow-back-2-rounded" width="24" height="24" />
+                    {/snippet}
+                </Button>
                 {#if autoplay}
-                    <button onclick={() => autoplay = !autoplay} class="px-5 py-1 transition-all duration-200 bg-red-500 rounded-md w-50 hover:cursor-pointer hover:bg-red-700 hover:text-white">
-                        Turn Autoplay Off
-                    </button>
+                    <Button action={() => { autoplay = !autoplay }} type="success">
+                        {#snippet children()}
+                            <span>Turn Autoplay Off</span>
+                        {/snippet}
+                    </Button>
                 {:else}
-                    <button onclick={() => autoplay = !autoplay} class="px-5 py-1 transition-all duration-200 bg-green-500 rounded-md w-50 hover:cursor-pointer hover:bg-green-700 hover:text-white">
-                        Turn Autoplay On
-                    </button>
+                    <Button action={() => { autoplay = !autoplay }} type="success">
+                        {#snippet children()}
+                            <span>Turn Autoplay On</span>
+                        {/snippet}
+                    </Button>
                 {/if}
-                <button onclick={() => videoPaused = !videoPaused} class="px-5 py-1 transition-all duration-200 rounded-md bg-slate-300 hover:cursor-pointer hover:bg-slate-500 hover:text-white">
-                    {#if videoPaused}
-                        Play Video
-                    {:else}
-                        Pause Video
-                    {/if}
-                </button>
-                <button onclick={contentCarousel.onContinue} class="px-5 py-1 transition-all duration-200 rounded-md grow bg-slate-300 hover:cursor-pointer hover:bg-slate-500 hover:text-white">
-                    {">"}
-                </button>
+                <Button action={() => videoPaused = !videoPaused} type="danger">
+                    {#snippet children()}
+                        {#if videoPaused}
+                            <Icon icon="material-symbols:play-arrow-rounded" width="24" height="24" />
+                        {:else}
+                            <Icon icon="material-symbols:pause-rounded" width="24" height="24" />
+                        {/if}
+                    {/snippet}
+                </Button>
+                <Button action={contentCarousel.onContinue} type="neutral">
+                    {#snippet children()}
+                        <Icon class="-scale-100" icon="material-symbols:arrow-back-2-rounded" width="24" height="24" />
+                    {/snippet}
+                </Button>
             </div>
         </div>
     {/if}

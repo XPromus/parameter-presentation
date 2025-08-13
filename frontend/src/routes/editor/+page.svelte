@@ -1,10 +1,9 @@
 <script lang="ts">
     import { draggable, droppable, type DragDropState } from '@thisux/sveltednd';
     import ImageCard from "$lib/components/editor/ImageCard.svelte";
-    import MediaAddDialog from "$lib/components/editor/MediaAddDialog.svelte";
     import { onMount } from "svelte";
     import { flip } from 'svelte/animate';
-    import { addIdToDeleteQueue, applyDeleteQueue, clearDeleteQueue, deleteQueue, isElementInListWithIndex, removeElementFromListByIndex } from '$lib/data/deleteQueueStore';
+    import { addIdToDeleteQueue, deleteQueue, isElementInListWithIndex, removeElementFromListByIndex } from '$lib/data/deleteQueueStore';
     import { EditorMode } from "$lib/config/editorMode";
     import Icon from '@iconify/svelte';
     import ContentTypeCrumb from '$lib/components/editor/ContentTypeCrumb.svelte';
@@ -64,7 +63,7 @@
 
     onMount(async () => {
         await updateList();
-    })
+    });
 </script>
 
 <div class="flex flex-col w-screen h-screen p-5 space-y-5">
