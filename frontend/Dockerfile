@@ -15,7 +15,7 @@ COPY --from=install /temp/dev/node_modules node_modules
 COPY ./frontend .
 
 ENV NODE_ENV=production
-RUN bun run build
+RUN bun --bun run vite build
 
 FROM caddy:alpine
 COPY --from=prerelease . /srv
