@@ -1,5 +1,5 @@
 localhost {
     root * /srv
 
-    file_server browse
+    file_server
 }
