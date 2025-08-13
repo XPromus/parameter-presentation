@@ -7,10 +7,10 @@ services:
       - "80:80"
       - "443:443"
       - "443:443/udp"
-    volumes:
-      # - ./docker/caddy/config:/etc/caddy
-      # - ./frontend/build:/srv
-      #- ./media:/srv/media
+    # volumes:
+    #   - ./docker/caddy/config:/etc/caddy
+    #   - ./frontend/build:/srv
+    #   - ./media:/srv/media
   pocketbase:
     build:
       context: ./docker/pocketbase
