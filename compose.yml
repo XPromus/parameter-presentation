@@ -1,13 +1,15 @@
 services:
   caddy:
-    image: caddy:alpine
+    build:
+      context: .
+      dockerfile: ./frontend/Dockerfile
     ports:
       - "80:80"
       - "443:443"
       - "443:443/udp"
     volumes:
-      - ./docker/caddy/config:/etc/caddy
-      - ./frontend/build:/srv
+      # - ./docker/caddy/config:/etc/caddy
+      # - ./frontend/build:/srv
       #- ./media:/srv/media
   pocketbase:
     build:
