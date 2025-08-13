@@ -11,6 +11,8 @@
     let contentCarousel: SvelteComponent | undefined = $state();
 
     let autoplay: boolean = $state(true);
+    let loop: boolean = $state(false);
+
     let showControls: boolean = $state(false);
 
     let videoPaused: boolean = $state(false);
@@ -36,6 +38,7 @@
 <div class="absolute top-0 left-0 flex w-screen h-screen max-h-screen max-w-screen">
     <ContentCarousel 
         media={data.media} 
+        loop={loop}
         bind:this={contentCarousel}
         bind:videoLength={videoLength} 
         bind:currentVideoTime={currentVideoTime} 
@@ -63,16 +66,29 @@
                     <Icon icon="material-symbols:arrow-back-2-rounded" width="24" height="24" />
                 {/snippet}
             </Button>
-            {#if autoplay}
-                <Button action={() => { autoplay = !autoplay }} type="success">
+            {#if loop}
+                <Button action={() => loop = !loop} type="success">
                     {#snippet children()}
-                        <span>Turn Autoplay Off</span>
+                        <Icon icon="material-symbols:cached-rounded" width="24" height="24" />
                     {/snippet}
                 </Button>
             {:else}
+                <Button action={() => loop = !loop} type="neutral">
+                    {#snippet children()}
+                        <Icon icon="material-symbols:cached-rounded" width="24" height="24" />
+                    {/snippet}
+                </Button>
+            {/if}
+            {#if autoplay}
                 <Button action={() => { autoplay = !autoplay }} type="success">
                     {#snippet children()}
-                        <span>Turn Autoplay On</span>
+                        <Icon icon="material-symbols:autoplay" width="24" height="24" />
+                    {/snippet}
+                </Button>
+            {:else}
+                <Button action={() => { autoplay = !autoplay }} type="neutral">
+                    {#snippet children()}
+                        <Icon icon="material-symbols:autoplay" width="24" height="24" />
                     {/snippet}
                 </Button>
             {/if}
@@ -96,16 +112,29 @@
                         <Icon icon="material-symbols:arrow-back-2-rounded" width="24" height="24" />
                     {/snippet}
                 </Button>
-                {#if autoplay}
-                    <Button action={() => { autoplay = !autoplay }} type="success">
+                {#if loop}
+                    <Button action={() => loop = !loop} type="success">
                         {#snippet children()}
-                            <span>Turn Autoplay Off</span>
+                            <Icon icon="material-symbols:cached-rounded" width="24" height="24" />
                         {/snippet}
                     </Button>
                 {:else}
+                    <Button action={() => loop = !loop} type="neutral">
+                        {#snippet children()}
+                            <Icon icon="material-symbols:cached-rounded" width="24" height="24" />
+                        {/snippet}
+                    </Button>
+                {/if}
+                {#if autoplay}
                     <Button action={() => { autoplay = !autoplay }} type="success">
                         {#snippet children()}
-                            <span>Turn Autoplay On</span>
+                            <Icon icon="material-symbols:autoplay" width="24" height="24" />
+                        {/snippet}
+                    </Button>
+                {:else}
+                    <Button action={() => { autoplay = !autoplay }} type="neutral">
+                        {#snippet children()}
+                            <Icon icon="material-symbols:autoplay" width="24" height="24" />
                         {/snippet}
                     </Button>
                 {/if}

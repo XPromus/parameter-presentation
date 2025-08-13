@@ -7,6 +7,7 @@
     let {
         media,
         autoplay,
+        loop,
         videoPaused = $bindable(),
         videoLength = $bindable(),
         currentVideoTime = $bindable(), 
@@ -14,6 +15,7 @@
     }: {
         media: MediaRecord[],
         autoplay: boolean,
+        loop: boolean,
         videoPaused: boolean,
         videoLength: number,
         currentVideoTime: number, 
@@ -41,10 +43,21 @@
     }
 
     export const onContinue = () => {
-        if (currentMediaIndex < media.length - 1){
+        if (loop) {
+            if (currentMediaIndex == media.length - 1) {
+                currentMediaIndex = 0;
+            } else {
+                currentMediaIndex++;
+            }
+
             elapsed = 0;
-            currentMediaIndex++;
             currentContentType = media[currentMediaIndex].type;
+        } else {
+            if (currentMediaIndex < media.length - 1) {
+                elapsed = 0;
+                currentMediaIndex++;
+                currentContentType = media[currentMediaIndex].type;
+            }
         }
     }
 
