@@ -5,12 +5,23 @@
     import Input from "$lib/components/interaction/Input.svelte";
 
     let defaultDurationInput: number = $state(0);
+    let pocketbaseAddress: string=  $state("http://127.0.0.1:8080");
+
+    const onPocketbaseAddressInput = () => {
+        editorSettings.update((value) => {
+            return {
+                pocketbaseAddress: pocketbaseAddress,
+                defaultDuration: value.defaultDuration
+            };
+        })
+    }
 
     const onDefaultDurationInput = () => {
         editorSettings.update((value) => {
             return {
+                pocketbaseAddress: value.pocketbaseAddress,
                 defaultDuration: defaultDurationInput
-            }
+            };
         });
     }
 
@@ -26,6 +37,10 @@
                 {"< Back"}
             {/snippet}
         </Link>
+    </div>
+    <div class="flex flex-row w-full space-x-5">
+        <span class="text-white">Pocketbase Address</span>
+        <Input onChange={onPocketbaseAddressInput} bind:value={pocketbaseAddress} placeholder="Pocketbase Address" type="text" />
     </div>
     <div class="flex flex-row w-full space-x-5">
         <span class="text-white">Default Duration (ms)</span>

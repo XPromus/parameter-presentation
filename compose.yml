@@ -7,15 +7,21 @@ services:
       - "80:80"
       - "443:443"
       - "443:443/udp"
-    # volumes:
-    #   - ./docker/caddy/config:/etc/caddy
-    #   - ./frontend/build:/srv
-    #   - ./media:/srv/media
-  pocketbase:
+
+  pocketbase_arm64:
     build:
-      context: ./docker/pocketbase
+      context: ./docker/pocketbase/arm64
       dockerfile: Dockerfile
     ports:
       - "8080:8080"
     volumes:
       - ./docker/pocketbase/pb_data:/pb/pb_data
+
+  # pocketbase_amd64:
+  #   build:
+  #     context: ./docker/pocketbase/amd64
+  #     dockerfile: Dockerfile
+  #   ports:
+  #     - "8080:8080"
+  #   volumes:
+  #     - ./docker/pocketbase/pb_data:/pb/pb_data
