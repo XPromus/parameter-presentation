@@ -20,5 +20,3 @@ RUN bun --bun run vite build
 FROM caddy:alpine
 COPY --from=prerelease . /srv
 COPY ./docker/caddy/config/Caddyfile /etc/caddy/
-
-EXPOSE 80 443 443/udp
