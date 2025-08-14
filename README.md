@@ -67,7 +67,7 @@ services:
   #     - ./docker/pocketbase/pb_data:/pb/pb_data
 ```
 
-## Configure Caddy
+### Configure Caddy
 The caddyfile must contain the IP of the device hosting the frontend. 
 If the frontend is only accessed on the same machine this step can be skipped.
 
@@ -98,3 +98,9 @@ specified in the Dockerfile
 URL of the Admin Panel: [http://0.0.0.0:8080/_/](http://0.0.0.0:8080/_/)
 - Email: mohn@tech.as
 - Password: admin12345
+
+## Settings in the web app
+Change the pocketbase address in the settings to the address that is hosting the service. 
+By default this address is the local address.
+
+The settings can be found in the editor and clicking the settings button.
