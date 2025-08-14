@@ -1,4 +1,4 @@
-localhost {
+localhost, http://10.0.0.139 {
     root * /srv
 
     file_server
