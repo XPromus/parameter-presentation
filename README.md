@@ -67,6 +67,23 @@ services:
   #     - ./docker/pocketbase/pb_data:/pb/pb_data
 ```
 
+## Configure Caddy
+The caddyfile must contain the IP of the device hosting the frontend. 
+If the frontend is only accessed on the same machine this step can be skipped.
+
+Location of the Caddyfile: ./docker/caddy/config/Caddyfile
+
+Change or add another route to the current options.
+The presence of http:// before the IP address is important.
+
+```Caddyfile
+localhost, http://10.0.0.139 {
+    root * /srv
+
+    file_server
+}
+```
+
 ### Deploy
 ```sh
 docker compose up
