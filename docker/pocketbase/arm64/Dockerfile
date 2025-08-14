@@ -18,5 +18,5 @@ RUN unzip /tmp/pb.zip -d /pb/
 
 EXPOSE 8080
 
-RUN /pb/pocketbase superuser upsert mohn@tech.as admin12345
-CMD ["/pb/pocketbase", "serve", "--http=0.0.0.0:8080"]
+RUN /pb/pocketbase serve --http=0.0.0.0:8080
+CMD ["/pb/pocketbase", "superuser", "upsert", "mohn@tech.as", "admin12345"]
