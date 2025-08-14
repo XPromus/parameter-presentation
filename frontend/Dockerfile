@@ -18,5 +18,5 @@ ENV NODE_ENV=production
 RUN bun --bun run vite build
 
 FROM caddy:alpine
-COPY --from=prerelease . /srv
+COPY --from=prerelease /usr/src/app/build /srv
 COPY ./docker/caddy/config/Caddyfile /etc/caddy/
