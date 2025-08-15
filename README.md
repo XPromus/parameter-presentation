@@ -77,7 +77,7 @@ Change or add another route to the current options.
 The presence of http:// before the IP address is important.
 
 ```Caddyfile
-localhost, http://10.0.0.139 {
+localhost, http://10.0.0.139, http://10.123.5.8 {
     root * /srv
 
     file_server
