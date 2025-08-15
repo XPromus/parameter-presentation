@@ -1,4 +1,4 @@
-import { deleteMedia } from "$lib/api/mediaServerAPI";
+import { deleteMedia } from "$lib/api/MediaServerAPI";
 import { writable } from "svelte/store";
 
 export const deleteQueue = writable<string[]>([]);

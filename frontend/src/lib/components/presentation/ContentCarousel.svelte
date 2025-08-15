@@ -1,5 +1,5 @@
 <script lang="ts">
-    import type { MediaRecord } from "$lib/types/mediaTypes";
+    import type { MediaRecord } from "$lib/types/MediaTypes";
     import { onMount, type SvelteComponent } from "svelte";
     import ImageViewer from "./ImageViewer.svelte";
     import VideoViewer from "./VideoViewer.svelte";

@@ -1,4 +1,4 @@
-import type { MediaRecord } from "$lib/types/mediaTypes";
+import type { MediaRecord } from "$lib/types/MediaTypes";
 
 export const updateIndexForMedia = (media: MediaRecord[]): MediaRecord[] => {
     const returnList: MediaRecord[] = new Array(media.length);

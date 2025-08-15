@@ -1,6 +1,6 @@
 <script lang="ts">
     import { onMount } from "svelte";
-    import { editorSettings } from "$lib/data/editorSettingsStore";
+    import { editorSettings } from "$lib/data/EditorSettingsStore";
     import Link from "$lib/components/interaction/Link.svelte";
     import Input from "$lib/components/interaction/Input.svelte";
     import Icon from "@iconify/svelte";

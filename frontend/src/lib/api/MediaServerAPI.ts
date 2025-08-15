@@ -1,10 +1,8 @@
-// TODO: Implement more unified data structure with media collection
-
-import PocketBase from 'pocketbase';
-import type { MediaCreateData, MediaRecord, MediaRecordNotFound, MediaRecordUpdate } from "$lib/types/mediaTypes";
+import type { MediaCreateData, MediaRecord, MediaRecordNotFound, MediaRecordUpdate } from "$lib/types/MediaTypes";
 import apiConfig from "$lib/config/apiConfig.json";
 import { get } from 'svelte/store';
-import { editorSettings } from '$lib/data/editorSettingsStore';
+import { editorSettings } from '$lib/data/EditorSettingsStore';
+import { createRecord, deleteRecord, getFull, getSingleRecord, updateRecord } from './GenericAPI';
 
 export const getMediaURL = (
     mediaRecord: MediaRecord
@@ -13,17 +11,13 @@ export const getMediaURL = (
 }
 
 export const getAllMedia = async (): Promise<MediaRecord[]> => {
-    const pb = new PocketBase(get(editorSettings).pocketbaseAddress);
-    return await pb.collection(apiConfig.mediaCollectionName).getFullList<MediaRecord>({
-        sort: "+index"
-    });
+    return await getFull<MediaRecord>(apiConfig.mediaCollectionName, "+index");
 }
 
 export const getMediaById = async (
     id: string
 ): Promise<MediaRecord | MediaRecordNotFound> => {
-    const pb = new PocketBase(get(editorSettings).pocketbaseAddress);
-    return await pb.collection(apiConfig.mediaCollectionName).getOne(id);
+    return await getSingleRecord<MediaRecord, MediaRecordNotFound>(apiConfig.mediaCollectionName, id);
 }
 
 export const updateMediaByList = async (
@@ -38,26 +32,23 @@ export const updateMediaByList = async (
 export const updateMedia = async (
     media: MediaRecord
 ): Promise<MediaRecord> => {
-    const pb = new PocketBase(get(editorSettings).pocketbaseAddress);
     const data: MediaRecordUpdate = {
         duration: media.duration,
         index: media.index,
         type: media.type,
         name: media.name
     };
-    return await pb.collection(apiConfig.mediaCollectionName).update(media.id, data);
+    return await updateRecord<MediaRecord, MediaRecordUpdate>(media.id, apiConfig.mediaCollectionName, data);
 }
 
 export const addMedia = async (
     data: MediaCreateData
 ): Promise<MediaRecord> => {
-    const pb = new PocketBase(get(editorSettings).pocketbaseAddress);
-    return await pb.collection(apiConfig.mediaCollectionName).create(data);
+    return await createRecord<MediaRecord, MediaCreateData>(apiConfig.mediaCollectionName, data);
 }
 
 export const deleteMedia = async (
     id: string
 ) => {
-    const pb = new PocketBase(get(editorSettings).pocketbaseAddress);
-    await pb.collection(apiConfig.mediaCollectionName).delete(id);
+    await deleteRecord(id, apiConfig.mediaCollectionName);
 }

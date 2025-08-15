@@ -2,20 +2,22 @@
     import { EditorMode } from "$lib/config/editorMode";
     import Icon from "@iconify/svelte";
     import MediaAddDialog from "./MediaAddDialog.svelte";
-    import type { MediaRecord } from "$lib/types/mediaTypes";
-    import { applyDeleteQueue, clearDeleteQueue, deleteQueue } from "$lib/data/deleteQueueStore";
+    import type { MediaRecord } from "$lib/types/MediaTypes";
+    import { applyDeleteQueue, clearDeleteQueue, deleteQueue } from "$lib/data/DeleteQueueStore";
     import Button from "../interaction/Button.svelte";
     import Link from "../interaction/Link.svelte";
-    import { text } from "@sveltejs/kit";
+    import { editorSettings } from "$lib/data/EditorSettingsStore";
 
     let {
         isDirty = $bindable(),
+        hasUpdateFromServer = $bindable(),
         updateList,
         updateMediaByList,
         mode = $bindable(),
         media
     }: {
         isDirty: boolean,
+        hasUpdateFromServer: boolean,
         updateList: any,
         updateMediaByList: any,
         mode: EditorMode,
@@ -48,6 +50,12 @@
         isDirty = false;
     }
 
+    const onReload = async () => {
+        await updateList();
+        hasUpdateFromServer = false;
+        isDirty = false;
+    }
+
 </script>
 
 <div class="flex flex-col w-full p-5 space-y-5 bg-gray-800 rounded-md h-fit">
@@ -56,20 +64,22 @@
     </div>
     <div class="flex flex-row space-x-5">
         <Link href="/" disabled={isDirty} type="neutral" tooltipOptions={{text: "Back to the startpage", position: "top"}}>
-            {#snippet children()}
-                <Icon icon="material-symbols:home-rounded" width="24" height="24" />
-            {/snippet}
+            <Icon icon="material-symbols:home-rounded" width="24" height="24" />
         </Link>
         <Link href="/presentation" disabled={isDirty} type="neutral" tooltipOptions={{text: "Open Presentation", position: "top"}}>
-            {#snippet children()}
-                <span>To Presentation</span>
-            {/snippet}
+            <span>To Presentation</span>
         </Link>
         <Link href="/editor/settings" type="neutral" tooltipOptions={{text: "Open Settings", position: "top"}}>
-            {#snippet children()}
-                <span>Settings</span>
-            {/snippet}
+            <span>Settings</span>
         </Link>
+        <Link href={`${$editorSettings.pocketbaseAddress}_/`} type="neutral" tooltipOptions={{text: "Open Pocketbase", position:"top"}} openInSeperateTab>
+            <Icon icon="material-symbols:database-outline" width="24" height="24" />
+        </Link>
+        {#if mode == EditorMode.EDIT}
+            <Button action={onReload} type={hasUpdateFromServer ? "success" : "neutral"} tooltipOptions={{text: "Reload media from the database", position: "top"}}>
+                <Icon icon="material-symbols:download-rounded" width="24" height="24" />
+            </Button>
+        {/if}
         <Button action={onReset} type="neutral" tooltipOptions={{text: "Reset Changes", position: "top"}}>
             <span>Reset</span>
         </Button>

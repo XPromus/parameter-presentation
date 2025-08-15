@@ -1,5 +1,5 @@
 <script lang="ts">
-    import type { TooltipOptions } from '$lib/types/tooltipTypes';
+    import type { TooltipOptions } from '$lib/types/TooltipTypes';
 
     let {
         show,

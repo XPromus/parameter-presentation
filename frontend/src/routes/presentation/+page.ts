@@ -1,4 +1,4 @@
-import { getAllMedia } from '$lib/api/mediaServerAPI';
+import { getAllMedia } from '$lib/api/MediaServerAPI';
 import type { PageLoad } from './$types';
 
 export const load = (async () => {

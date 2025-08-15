@@ -1,7 +1,7 @@
 <script lang="ts">
     import theme from "$lib/theme/theme.json";
-    import type { ThemeTypes } from "$lib/theme/themeTypes";
-    import type { TooltipOptions } from "$lib/types/tooltipTypes";
+    import type { ThemeTypes } from "$lib/theme/ThemeTypes";
+    import type { TooltipOptions } from "$lib/types/TooltipTypes";
     import Tooltip from "./Tooltip.svelte";
 
     let {

@@ -1,4 +1,4 @@
-import type { EditorSettings } from "$lib/types/settingsTypes";
+import type { EditorSettings } from "$lib/types/SettingsTypes";
 import { writable } from "svelte/store";
 
 export const editorSettings = writable<EditorSettings>({

@@ -1,20 +1,24 @@
 <script lang="ts">
     import { draggable, droppable, type DragDropState } from '@thisux/sveltednd';
     import ImageCard from "$lib/components/editor/ImageCard.svelte";
-    import { onMount } from "svelte";
+    import { onDestroy, onMount } from "svelte";
     import { flip } from 'svelte/animate';
-    import { addIdToDeleteQueue, deleteQueue, isElementInListWithIndex, removeElementFromListByIndex } from '$lib/data/deleteQueueStore';
+    import { addIdToDeleteQueue, deleteQueue, isElementInListWithIndex, removeElementFromListByIndex } from '$lib/data/DeleteQueueStore';
     import { EditorMode } from "$lib/config/editorMode";
     import Icon from '@iconify/svelte';
     import ContentTypeCrumb from '$lib/components/editor/ContentTypeCrumb.svelte';
-    import type { MediaRecord } from '$lib/types/mediaTypes';
+    import type { MediaRecord } from '$lib/types/MediaTypes';
     import VideoCard from '$lib/components/editor/VideoCard.svelte';
     import ContentIndexCrumb from '$lib/components/editor/ContentIndexCrumb.svelte';
-    import { getAllMedia, updateMediaByList } from '$lib/api/mediaServerAPI';
+    import { getAllMedia, updateMediaByList } from '$lib/api/MediaServerAPI';
     import EditMenu from '$lib/components/editor/EditMenu.svelte';
-    
+    import PocketBase from 'pocketbase';
+    import { editorSettings } from '$lib/data/EditorSettingsStore';
+
+    const pb = new PocketBase($editorSettings.pocketbaseAddress);
     let media: MediaRecord[] = $state([]);
 
+    let hasUpdateFromServer = $state<boolean>(false);
     let isDirty = $state<boolean>(false);
     let mode = $state<EditorMode>(EditorMode.EDIT);
 
@@ -63,6 +67,13 @@
 
     onMount(async () => {
         await updateList();
+        pb.collection("media").subscribe<MediaRecord>("*", (e) => {
+            hasUpdateFromServer = true;
+        });
+    });
+
+    onDestroy(async () => {
+        await pb.collection("media").unsubscribe("*");
     });
 </script>
 
@@ -131,11 +142,11 @@
         {/each}
     </div>
     <EditMenu 
-        bind:isDirty={isDirty} 
+        bind:isDirty={isDirty}
+        bind:hasUpdateFromServer={hasUpdateFromServer}
         updateList={updateList} 
         updateMediaByList={updateMediaByList} 
         bind:mode={mode} 
         media={media}
     />
 </div>
-

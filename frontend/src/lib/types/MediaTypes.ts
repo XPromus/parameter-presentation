@@ -1,18 +1,17 @@
+import type { RecordResponse } from "./PocketbaseBaseTypes"
+
 export enum MediaType {
     IMAGE, VIDEO
 }
 
-export type MediaRecord = {
-    collectionId: string,
-    collectionName: string,
-    id: string,
+export type MediaRecord = MediaData & RecordResponse;
+
+export type MediaData = {
     content: string,
     duration: number,
     index: number,
     type: string,
-    name: string,
-    created: string,
-    updated: string
+    name: string
 }
 
 export type MediaRecordNotFound = {

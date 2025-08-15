@@ -1,8 +1,8 @@
 <script lang="ts">
-    import { addMedia } from "$lib/api/mediaServerAPI";
+    import { addMedia } from "$lib/api/MediaServerAPI";
     import { EditorMode } from "$lib/config/editorMode";
-    import { editorSettings } from "$lib/data/editorSettingsStore";
-    import type { MediaCreateData } from "$lib/types/mediaTypes";
+    import { editorSettings } from "$lib/data/EditorSettingsStore";
+    import type { MediaCreateData } from "$lib/types/MediaTypes";
     import Icon from '@iconify/svelte';
     import { onMount } from "svelte";
     import Button from "../interaction/Button.svelte";

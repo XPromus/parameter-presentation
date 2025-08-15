@@ -2,5 +2,6 @@
     "baseURL": "http://127.0.0.1:8080",
     "imageCollectionName": "images",
     "videoCollectionName": "videos",
-    "mediaCollectionName": "media"
+    "mediaCollectionName": "media",
+    "colorCollectionName": "colors"
 }

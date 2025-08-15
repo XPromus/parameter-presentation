@@ -1,6 +1,6 @@
 <script lang="ts">
-    import { getMediaURL } from "$lib/api/mediaServerAPI";
-    import { type MediaRecord } from "$lib/types/mediaTypes";
+    import { getMediaURL } from "$lib/api/MediaServerAPI";
+    import { type MediaRecord } from "$lib/types/MediaTypes";
     import Input from "../interaction/Input.svelte";
 
     let { 
