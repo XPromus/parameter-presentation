@@ -1,6 +1,8 @@
 <script lang="ts">
     import theme from "$lib/theme/theme.json";
     import type { ThemeTypes } from "$lib/theme/themeTypes";
+    import type { TooltipOptions } from "$lib/types/tooltipTypes";
+    import Tooltip from "./Tooltip.svelte";
 
     let {
         action,
@@ -8,26 +10,35 @@
         disabled = false,
         classes = "",
         children,
+        tooltipOptions,
     }: {
         action: any,
-        type: string,
+        type: "success" | "danger" | "neutral",
         disabled?: boolean,
         classes?: string,
-        children: any
+        children: any,
+        tooltipOptions?: TooltipOptions
     } = $props();
+
+    let showTooltip: boolean = $state(false);
 </script>
 
 {#if disabled}
     <button
-        class={`flex justify-center items-center px-5 py-1 grow transition-all duration-200 border rounded-md opacity-50 ${theme[`${type}Disabled` as keyof ThemeTypes]} ${classes}`}
+        class={`relative flex justify-center items-center px-5 py-1 grow transition-all duration-200 border rounded-md opacity-50 ${theme[`${type}Disabled` as keyof ThemeTypes]} ${classes}`}
     >
         {@render children()}
     </button>
 {:else}
     <button 
         onclick={action} 
-        class={`flex justify-center items-center px-5 py-1 grow transition-all duration-200 border rounded-md hover:cursor-pointer ${theme[type as keyof ThemeTypes]}`}
+        onmouseenter={() => showTooltip = true}
+        onmouseleave={() => showTooltip = false}
+        class={`relative flex justify-center items-center px-5 py-1 grow transition-all duration-200 border rounded-md hover:cursor-pointer ${theme[type as keyof ThemeTypes]}`}
     >
         {@render children()}
+        {#if tooltipOptions !== undefined}
+            <Tooltip show={showTooltip} options={tooltipOptions} />
+        {/if}
     </button>
 {/if}

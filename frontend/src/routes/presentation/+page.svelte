@@ -50,49 +50,49 @@
 
 <div role="button" tabindex="0" onmouseleave={() => {showControls = false}} class="absolute bottom-0 left-0 z-20 flex items-center justify-center w-screen px-5 transition-opacity duration-200 opacity-0 bg-gray-900/90 hover:opacity-100">
     <div class="flex flex-row space-x-5">
-        <Link href="/" type="neutral">
+        <Link href="/" type="neutral" tooltipOptions={{text: "Back to the startpage", position: "top"}}>
             {#snippet children()}
                 <Icon icon="material-symbols:home-rounded" width="24" height="24" />
             {/snippet}
         </Link>
-        <Link href="/editor" type="neutral">
+        <Link href="/editor" type="neutral" tooltipOptions={{text: "Open the editor", position: "top"}}>
             <Icon icon="material-symbols:edit-rounded" width="24" height="24" />
         </Link>
     </div>
     {#if currentContentType == "image"}
         <div class="flex flex-row justify-center w-full p-5 space-x-5">
-            <Button action={contentCarousel.onBack} type="neutral">
+            <Button action={contentCarousel.onBack} type="neutral" tooltipOptions={{text: "Previous Image", position: "top"}}>
                 {#snippet children()}
                     <Icon icon="material-symbols:arrow-back-2-rounded" width="24" height="24" />
                 {/snippet}
             </Button>
             {#if loop}
-                <Button action={() => loop = !loop} type="success">
+                <Button action={() => loop = !loop} type="success" tooltipOptions={{text: "Loop is enabled. Click to disable", position: "top"}}>
                     {#snippet children()}
                         <Icon icon="material-symbols:cached-rounded" width="24" height="24" />
                     {/snippet}
                 </Button>
             {:else}
-                <Button action={() => loop = !loop} type="neutral">
+                <Button action={() => loop = !loop} type="neutral" tooltipOptions={{text: "Loop is disabled. Click to enable", position: "top"}}>
                     {#snippet children()}
                         <Icon icon="material-symbols:cached-rounded" width="24" height="24" />
                     {/snippet}
                 </Button>
             {/if}
             {#if autoplay}
-                <Button action={() => { autoplay = !autoplay }} type="success">
+                <Button action={() => { autoplay = !autoplay }} type="success" tooltipOptions={{text: "Autoplay is enabled. Click to disable", position: "top"}}>
                     {#snippet children()}
                         <Icon icon="material-symbols:autoplay" width="24" height="24" />
                     {/snippet}
                 </Button>
             {:else}
-                <Button action={() => { autoplay = !autoplay }} type="neutral">
+                <Button action={() => { autoplay = !autoplay }} type="neutral" tooltipOptions={{text: "Autoplay is disabled. Click to enable", position: "top"}}>
                     {#snippet children()}
                         <Icon icon="material-symbols:autoplay" width="24" height="24" />
                     {/snippet}
                 </Button>
             {/if}
-            <Button action={contentCarousel.onContinue} type="neutral">
+            <Button action={contentCarousel.onContinue} type="neutral" tooltipOptions={{text: "Next Image", position: "top"}}>
                 {#snippet children()}
                     <Icon class="-scale-100" icon="material-symbols:arrow-back-2-rounded" width="24" height="24" />
                 {/snippet}
@@ -107,38 +107,38 @@
                 </span>
             </div>
             <div class="flex flex-row justify-center w-full space-x-5">
-                <Button action={contentCarousel.onBack} type="neutral">
+                <Button action={contentCarousel.onBack} type="neutral" tooltipOptions={{text: "Previous Image", position: "top"}}>
                     {#snippet children()}
                         <Icon icon="material-symbols:arrow-back-2-rounded" width="24" height="24" />
                     {/snippet}
                 </Button>
                 {#if loop}
-                    <Button action={() => loop = !loop} type="success">
+                    <Button action={() => loop = !loop} type="success" tooltipOptions={{text: "Loop is enabled. Click to disable", position: "top"}}>
                         {#snippet children()}
                             <Icon icon="material-symbols:cached-rounded" width="24" height="24" />
                         {/snippet}
                     </Button>
                 {:else}
-                    <Button action={() => loop = !loop} type="neutral">
+                    <Button action={() => loop = !loop} type="neutral" tooltipOptions={{text: "Loop is disabled. Click to enable", position: "top"}}>
                         {#snippet children()}
                             <Icon icon="material-symbols:cached-rounded" width="24" height="24" />
                         {/snippet}
                     </Button>
                 {/if}
                 {#if autoplay}
-                    <Button action={() => { autoplay = !autoplay }} type="success">
+                    <Button action={() => { autoplay = !autoplay }} type="success" tooltipOptions={{text: "Autoplay is enabled. Click to disable", position: "top"}}>
                         {#snippet children()}
                             <Icon icon="material-symbols:autoplay" width="24" height="24" />
                         {/snippet}
                     </Button>
                 {:else}
-                    <Button action={() => { autoplay = !autoplay }} type="neutral">
+                    <Button action={() => { autoplay = !autoplay }} type="neutral" tooltipOptions={{text: "Autoplay is disabled. Click to enable", position: "top"}}>
                         {#snippet children()}
                             <Icon icon="material-symbols:autoplay" width="24" height="24" />
                         {/snippet}
                     </Button>
                 {/if}
-                <Button action={() => videoPaused = !videoPaused} type="danger">
+                <Button action={() => videoPaused = !videoPaused} type="danger" tooltipOptions={{text: "Play/Pause Video", position: "top"}}>
                     {#snippet children()}
                         {#if videoPaused}
                             <Icon icon="material-symbols:play-arrow-rounded" width="24" height="24" />
@@ -147,7 +147,7 @@
                         {/if}
                     {/snippet}
                 </Button>
-                <Button action={contentCarousel.onContinue} type="neutral">
+                <Button action={contentCarousel.onContinue} type="neutral" tooltipOptions={{text: "Next Image", position: "top"}}>
                     {#snippet children()}
                         <Icon class="-scale-100" icon="material-symbols:arrow-back-2-rounded" width="24" height="24" />
                     {/snippet}

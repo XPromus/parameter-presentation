@@ -25,12 +25,10 @@
         <div class="flex flex-row w-full space-x-2"> 
             <span class="text-white basis-2/5">Name</span>
             <Input bind:value={media.name} onChange={onChange} type="text" placeholder="Name of the Media" />
-            <!-- <input oninput={onChange} class="px-2 rounded-md bg-slate-200 grow" bind:value={media.name} type="text"> -->
         </div>
         <div class="flex flex-row w-full space-x-2"> 
             <span class="text-white basis-2/5">Duration (ms)</span>
             <Input bind:value={media.duration} onChange={onChange} type="number" placeholder="Time in ms the image is shown"  />
-            <!-- <input oninput={onChange} class="px-2 rounded-md bg-slate-200 grow" bind:value={media.duration} type="number"> -->
         </div>
     </div>
 </div>

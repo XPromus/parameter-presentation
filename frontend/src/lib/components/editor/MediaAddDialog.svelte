@@ -66,7 +66,7 @@
         <div class="flex flex-row items-center space-x-5">
             <span class="text-white basis-1/5">New Files</span>
             <FileInput bind:fileInputValue={fileInputValue} bind:files={files} multiple disabled={disabled} accept={getMimeString()} />
-            <Button action={onClearFiles} type="danger">
+            <Button action={onClearFiles} type="danger" tooltipOptions={{text: "Clear the selected files", position: "top"}}>
                 {#snippet children()}
                     <Icon icon="material-symbols:remove" width="24" height="24" />
                 {/snippet}
@@ -77,7 +77,7 @@
             <Input bind:value={duration} placeholder="Duration in ms" type="number" />
         </div>
     </div>
-    <Button action={onAdd} type="neutral">
+    <Button action={onAdd} type="neutral" tooltipOptions={{text: "Add selected files to the database", position: "top"}}>
         <span class="text-xl text-white">
             <Icon icon="material-symbols:add-2-rounded" width="24" height="24" />
         </span>

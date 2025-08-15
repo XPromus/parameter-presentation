@@ -1,6 +1,8 @@
 <script lang="ts">
     import theme from "$lib/theme/theme.json";
     import type { ThemeTypes } from "$lib/theme/themeTypes";
+    import type { TooltipOptions } from "$lib/types/tooltipTypes";
+    import Tooltip from "./Tooltip.svelte";
 
     let {
         href,
@@ -8,13 +10,17 @@
         disabled = false,
         classes = "",
         children,
+        tooltipOptions,
     }: {
         href: any,
-        type: string,
+        type: "success" | "danger" | "neutral",
         disabled?: boolean,
         classes?: string,
         children: any,
+        tooltipOptions?: TooltipOptions
     } = $props();
+
+    let showTooltip: boolean = $state(false);
 </script>
 
 {#if disabled}
@@ -22,7 +28,10 @@
         {@render children()}
     </a>
 {:else}
-    <a href={href} class={`flex justify-center px-5 py-1 text-center duration-200 rounded-md ${theme[type as keyof ThemeTypes]}`}>
+    <a onmouseenter={() => showTooltip = true} onmouseleave={() => showTooltip = false} href={href} class={`relative flex justify-center px-5 py-1 text-center duration-200 rounded-md ${theme[type as keyof ThemeTypes]}`}>
         {@render children()}
+        {#if tooltipOptions !== undefined}
+            <Tooltip show={showTooltip} options={tooltipOptions} />
+        {/if}
     </a>
 {/if}
