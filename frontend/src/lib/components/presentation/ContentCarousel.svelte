@@ -91,10 +91,10 @@
         return () => {
             cancelAnimationFrame(frame);
         }
-    })
+    });
 </script>
 
-<div class="flex justify-center w-full h-full">
+<div class="content-carousel flex justify-center w-full h-full">
     {#if media[currentMediaIndex].type == "image"}
         <ImageViewer bind:this={imageViewer} data={media[currentMediaIndex]} />
     {:else if media[currentMediaIndex].type == "video"}

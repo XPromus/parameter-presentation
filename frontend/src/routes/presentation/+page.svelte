@@ -1,10 +1,12 @@
 <script lang="ts">
     import ContentCarousel from '$lib/components/presentation/ContentCarousel.svelte';
-    import type { SvelteComponent } from 'svelte';
+    import { onMount, type SvelteComponent } from 'svelte';
     import type { PageProps } from './$types';
     import Icon from '@iconify/svelte';
     import Button from '$lib/components/interaction/Button.svelte';
     import Link from '$lib/components/interaction/Link.svelte';
+    import type { ColorRecord } from '$lib/types/ColorTypes';
+    import { getActiveColor } from '$lib/api/ColorAPI';
 
     let { data }: PageProps = $props();
 
@@ -21,6 +23,8 @@
 
     let currentContentType: string = $state("");
 
+    let backgroundColor: ColorRecord | undefined = $state();
+
     const getVideoTimeString = (): string => {
         const currentTimeDate = new Date(currentVideoTime * 1000);
         const finalTimeDate = new Date(videoLength * 1000);
@@ -33,9 +37,16 @@
         const finalTimeString = finalTimeDate.toLocaleTimeString("de-DE", options);
         return currentTimeString + "/" + finalTimeString;
     }
+
+    onMount(async () => {
+        backgroundColor = (await getActiveColor())[0];
+    });
 </script>
 
-<div class="absolute top-0 left-0 flex w-screen h-screen max-h-screen max-w-screen">
+<div 
+    style="--backgroundColor:{backgroundColor?.color};"
+    class="presentation-container absolute top-0 left-0 flex w-screen h-screen max-h-screen max-w-screen"
+>
     <ContentCarousel 
         media={data.media} 
         loop={loop}
@@ -156,3 +167,9 @@
         </div>
     {/if}
 </div>
+
+<style>
+    .presentation-container {
+        background-color: var(--backgroundColor);
+    }
+</style>

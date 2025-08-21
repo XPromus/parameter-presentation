@@ -8,6 +8,7 @@
     import Button from "../interaction/Button.svelte";
     import Input from "../interaction/Input.svelte";
     import FileInput from "../interaction/FileInput.svelte";
+    import ColorSelectionMenu from "./colors/ColorSelectionMenu.svelte";
 
     let { editorMode, onUpload, maxIndex }: { editorMode: EditorMode, onUpload: any, maxIndex: number } = $props();
     let disabled = $derived(editorMode == EditorMode.DELETE);
@@ -71,15 +72,15 @@
                     <Icon icon="material-symbols:remove" width="24" height="24" />
                 {/snippet}
             </Button>
+            <Button action={onAdd} type="neutral" tooltipOptions={{text: "Add selected files to the database", position: "top"}}>
+                <span class="text-xl text-white">
+                    <Icon icon="material-symbols:add-2-rounded" width="24" height="24" />
+                </span>
+            </Button>
         </div>
         <div class="flex flex-row space-x-5">
             <span class="text-white basis-1/5">Duration (ms)</span>
             <Input bind:value={duration} placeholder="Duration in ms" type="number" />
         </div>
     </div>
-    <Button action={onAdd} type="neutral" tooltipOptions={{text: "Add selected files to the database", position: "top"}}>
-        <span class="text-xl text-white">
-            <Icon icon="material-symbols:add-2-rounded" width="24" height="24" />
-        </span>
-    </Button>
 </div>

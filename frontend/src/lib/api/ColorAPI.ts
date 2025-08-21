@@ -1,6 +1,6 @@
 import apiConfig from "$lib/config/apiConfig.json";
 import type { ColorCreateData, ColorRecord, ColorRecordUpdate } from '$lib/types/ColorTypes';
-import { createRecord, deleteRecord, getFull, getSingleRecord, updateRecord } from './GenericAPI';
+import { createRecord, deleteRecord, getFull, getListOfRecords, getSingleRecord, updateRecord } from './GenericAPI';
 import type { RecordNotFoundResponse } from '$lib/types/PocketbaseBaseTypes';
 
 export const getAllColors = async (): Promise<ColorRecord[]> => {
@@ -30,4 +30,13 @@ export const deleteColor = async (
     id: string
 ) => {
     await deleteRecord(id, apiConfig.colorCollectionName);
+}
+
+export const getActiveColor = async (): Promise<ColorRecord[]> => {
+    return await getListOfRecords<ColorRecord>(
+        apiConfig.colorCollectionName,
+        1,
+        50,
+        { filter: "active = true" }
+    );
 }

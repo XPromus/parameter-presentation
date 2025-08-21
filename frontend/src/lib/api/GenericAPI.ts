@@ -1,5 +1,5 @@
 import { editorSettings } from "$lib/data/EditorSettingsStore";
-import PocketBase from 'pocketbase';
+import PocketBase, { type RecordListOptions, type RecordOptions } from 'pocketbase';
 import { get } from "svelte/store";
 
 export const getFull = async <T>(
@@ -18,6 +18,21 @@ export const getSingleRecord = async <T, TNotFoundError>(
 ): Promise<T | TNotFoundError> => {
     const pb = new PocketBase(get(editorSettings).pocketbaseAddress);
     return await pb.collection(collectionName).getOne(id);
+}
+
+export const getListOfRecords = async <T>(
+    collectionName: string,
+    page: number,
+    perPage: number,
+    options: RecordListOptions
+): Promise<T[]> => {
+    const pb = new PocketBase(get(editorSettings).pocketbaseAddress);
+    const data = await pb.collection(collectionName).getList<T>(
+        page, 
+        perPage, 
+        options
+    );
+    return data.items;
 }
 
 export const createRecord = async <T, TCreateData extends Object>(

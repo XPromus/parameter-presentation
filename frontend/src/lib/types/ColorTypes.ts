@@ -4,12 +4,15 @@ export type ColorRecord = ColorData & RecordResponse;
 
 export type ColorData = {
     color: string,
+    active: boolean,
 }
 
 export type ColorRecordUpdate = {
-    color: string
+    color: string,
+    active: boolean,
 }
 
 export type ColorCreateData = {
-    color: string
+    color: string,
+    active: boolean,
 }

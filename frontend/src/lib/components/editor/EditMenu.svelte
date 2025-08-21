@@ -7,6 +7,7 @@
     import Button from "../interaction/Button.svelte";
     import Link from "../interaction/Link.svelte";
     import { editorSettings } from "$lib/data/EditorSettingsStore";
+    import ColorSelectionMenu from "./colors/ColorSelectionMenu.svelte";
 
     let {
         isDirty = $bindable(),
@@ -58,8 +59,9 @@
 
 </script>
 
-<div class="flex flex-col w-full p-5 space-y-5 bg-gray-800 rounded-md h-fit">
-    <div class="flex flex-row space-x-5">
+<div class="flex flex-col w-full p-5 space-y-5 bg-gray-800 rounded-md h-fit max-w-full">
+    <ColorSelectionMenu />
+    <div class="flex flex-row space-x-5 grow max-w-full">
         <MediaAddDialog onUpload={updateList} editorMode={mode} maxIndex={media.length}/>
     </div>
     <div class="flex flex-row space-x-5">

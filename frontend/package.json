@@ -28,7 +28,6 @@
 		"@iconify/svelte": "^5.0.1",
 		"@sveltejs/kit": "^2.22.0",
 		"@thisux/sveltednd": "^0.0.20",
-		"pocketbase": "^0.26.2",
-		"svelte-awesome-color-picker": "^4.0.2"
+		"pocketbase": "^0.26.2"
 	}
 }
